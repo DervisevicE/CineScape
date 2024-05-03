@@ -2,16 +2,19 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { MovieDBProvider } from "./context/movieDBContext";
+import { MovieProvider } from "./context/moviesContext";
+import { SeriesProvider } from "./context/seriesContex";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <MovieDBProvider>
-      <App />
-    </MovieDBProvider>
+    <MovieProvider>
+      <SeriesProvider>
+        <App />
+      </SeriesProvider>
+    </MovieProvider>
   </React.StrictMode>
 );
 

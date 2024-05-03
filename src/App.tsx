@@ -1,13 +1,16 @@
 import React from "react";
 import "./App.css";
 import Sidebar from "./components/Sidebar/Sidebar";
-import { useMovieDBContext } from "./context/movieDBContext";
+// import { useMovieContext } from "./context/moviesContext";
+// import { useSeriesContext } from "./context/seriesContex";
 function App() {
-  const movieContext = useMovieDBContext();
+  // const movieContext = useMovieContext();
+  // const seriesContex = useSeriesContext();
 
-  const { trendingMovies } = movieContext;
+  // const { trendingMovies } = movieContext;
+  // const {popularTVShows} = seriesContex
 
-  console.log(trendingMovies);
+  // console.log(popularTVShows);
 
   return (
     <div className="app">
