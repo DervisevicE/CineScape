@@ -4,17 +4,20 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { MovieProvider } from "./context/moviesContext";
 import { SeriesProvider } from "./context/seriesContex";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <MovieProvider>
-      <SeriesProvider>
-        <App />
-      </SeriesProvider>
-    </MovieProvider>
+    <BrowserRouter>
+      <MovieProvider>
+        <SeriesProvider>
+          <App />
+        </SeriesProvider>
+      </MovieProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
