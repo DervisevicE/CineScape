@@ -3,8 +3,8 @@ import "./App.css";
 import {Route, Routes } from "react-router-dom";
 
 import Sidebar from "./components/Sidebar/Sidebar";
-import Movies from "./pages/Movies";
-import TVShows from "./pages/TVShows";
+import Movies from "./pages/Movies/Movies";
+import TVShows from "./pages/TVShows/TVShows";
 // import { useMovieContext } from "./context/moviesContext";
 // import { useSeriesContext } from "./context/seriesContex";
 function App() {

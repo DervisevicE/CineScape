@@ -1,7 +1,7 @@
 import React from "react";
-import { useMovieContext } from "../context/moviesContext";
-import "./movie.css";
-import Card from "../components/Card/Card";
+import { useMovieContext } from "../../context/moviesContext";
+import "../list.css"
+import Card from "../../components/Card/Card";
 
 const Movies = () => {
   const movieContext = useMovieContext();
