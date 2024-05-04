@@ -1,0 +1,13 @@
+.movies-container {
+  padding-top: 70px;
+  height: 100%;
+  width: 95%;
+  margin: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding-top: 40px;
+}

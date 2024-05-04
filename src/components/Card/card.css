@@ -1,0 +1,43 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.poster {
+  width: 100%;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2),
+    0 6px 32px 0 rgba(255, 255, 255, 0.19);
+}
+
+.card:hover {
+  transform: scale(1.1);
+}
+
+.card-details {
+  padding: 0px 0px 0px 4px;
+}
+.card-title-container {
+  padding: 20px 0px 10px 0px;
+}
+.card-title {
+  font-size: 14px;
+}
+
+.card-genre-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding: 0px 0px 20px 0px;
+}
+
+.genre {
+  color: #f8f8f8cd;
+  font-size: 11px;
+  padding-right: 4px;
+}
