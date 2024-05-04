@@ -1,0 +1,18 @@
+.search-bar-container {
+  padding-top: 60px;
+  width: 95%;
+  margin: auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.search-bar {
+  background-image: url("../../assets//search-bar.png");
+  background-position: 6px 10px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  width: 50%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 2px solid #252837;
+}
