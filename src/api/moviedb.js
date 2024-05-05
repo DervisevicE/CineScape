@@ -131,7 +131,7 @@ export const fetchPopularTVShows = async () => {
   }
 };
 
-export const fetchTVShowetails = async (seriesId) => {
+export const fetchTVShowDetails = async (seriesId) => {
   try {
     const response = await axios.get(
       `${apiUrl}/tv/${seriesId}?api_key=${apiKey}`

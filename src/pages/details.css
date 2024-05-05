@@ -78,11 +78,25 @@
   padding: 10px 20px 0px 0px;
 }
 
+.back-arrow-container{
+  width: fit-content;
+  position: absolute;
+  transform: translateY(-50%);
+  cursor: pointer;
+  background-color: rgba(105, 105, 105, 0.6);
+  top: 10%;
+  left: 2%;
+  padding: 12px;
+  border-radius: 50%;
+  border: none;
+  z-index: 100000;
+}
+
 .back-arrow {
   z-index: 2;
   cursor: pointer;
   position: relative;
-  padding: 20px 0px 0px 30px;
+  padding: 0px 4px;
 }
 
 .cast-member-list {

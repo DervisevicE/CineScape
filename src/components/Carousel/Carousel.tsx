@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./carousel.css";
 
-interface Movie {
+interface Data {
   id: number;
   poster_path: string;
   backdrop_path: string;
@@ -11,7 +11,7 @@ interface Movie {
 }
 
 interface Props {
-  items: Movie[];
+  items: Data[];
 }
 
 const Carousel: React.FC<Props> = ({ items }) => {
@@ -56,7 +56,7 @@ const Carousel: React.FC<Props> = ({ items }) => {
             transform: `translateX(-${(currentIndex / numItems) * 100}%)`,
           }}
         >
-          {items.map((item: Movie, index: number) => (
+          {items?.map((item: Data, index: number) => (
             <div
               className="carousel-card card"
               key={index}
@@ -69,7 +69,7 @@ const Carousel: React.FC<Props> = ({ items }) => {
                 }}
               ></div>
               <div className="card-details">
-                <p className="card-title">{item.title}</p>
+                <p className="card-title">{item?.title}</p>
               </div>
             </div>
           ))}

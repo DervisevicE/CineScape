@@ -6,6 +6,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import Movies from "./pages/Movies/Movies";
 import TVShows from "./pages/TVShows/TVShows";
 import MovieDetails from "./pages/MovieDetails";
+import TVShowDetails from "./pages/TVShowDetails";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/movies" element={<Movies />} />
           <Route path="/tv-shows" element={<TVShows />} />
           <Route path="/movies/:id" element={<MovieDetails />} />
+          <Route path="/tv-shows/:id" element={<TVShowDetails />} />
         </Routes>
       </div>
       <Routes />

@@ -1,0 +1,12 @@
+.page-not-found-container {
+  position: relative;
+  height: 100%;
+}
+
+.page-not-found-message-center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}

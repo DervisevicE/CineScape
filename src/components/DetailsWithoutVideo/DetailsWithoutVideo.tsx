@@ -8,7 +8,7 @@ interface Genre {
   name: string;
 }
 
-interface Movie {
+interface Data {
   poster_path: string;
   backdrop_path: string;
   title: string;
@@ -22,7 +22,7 @@ interface CastMember {
 }
 
 interface DetailsProps {
-  data: Movie | null;
+  data: Data | null;
   similar: any[];
   castMembers: CastMember[] | null;
 }
@@ -44,9 +44,11 @@ const DetailsWithoutVideo: React.FC<DetailsProps> = ({
               backgroundImage: `url(https://image.tmdb.org/t/p/w500/${data?.backdrop_path})`,
             }}
           >
-            <div className="back-arrow" onClick={() => navigate(-1)}>
+           <div className="back-arrow-container">
+           <div className="back-arrow" onClick={() => navigate(-1)}>
               &#10094;
             </div>
+           </div>
           </div>
 
           <div className="main-details-container">
@@ -61,7 +63,7 @@ const DetailsWithoutVideo: React.FC<DetailsProps> = ({
 
             <div className="main-details">
               <div className="details-genres">
-                {data?.genres.map((genre, index) => (
+                {data?.genres?.map((genre, index) => (
                   <span key={genre.id}>
                     {index > 0 && " | "}
                     {genre.name}
@@ -88,7 +90,7 @@ const DetailsWithoutVideo: React.FC<DetailsProps> = ({
               </div>
             </div>
           </div>
-          <Carousel items={similar} />
+          {similar && <Carousel items={similar} />}
         </>
       )}
     </div>

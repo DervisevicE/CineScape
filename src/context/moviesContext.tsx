@@ -6,7 +6,7 @@ import {
   fetchMovieGenres,
   fetchMovieDetails,
   fetchCastMembersForMovie,
-  fetchSimilarMovies
+  fetchSimilarMovies,
 } from "../api/moviedb";
 
 interface MovieContextType {
@@ -76,7 +76,6 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-
   const fetchCastMembersForMovieById = async (movieId: number) => {
     try {
       const response = await fetchCastMembersForMovie(movieId);
@@ -92,7 +91,7 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
       const response = await fetchSimilarMovies(movieId);
       return response.results;
     } catch (error) {
-      console.log("Error fetching cast members for movie:", error);
+      console.log("Error fetching similar movies:", error);
       return null;
     }
   };
@@ -104,7 +103,7 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
     movieGenres,
     fetchMovieDetails: fetchMovieDetailsById,
     fetchCastMembersForMovie: fetchCastMembersForMovieById,
-    fetchSimilarMovies: fetchSimilarMoviesById
+    fetchSimilarMovies: fetchSimilarMoviesById,
   };
 
   return (

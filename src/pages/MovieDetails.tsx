@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useMovieContext } from "../context/moviesContext";
 import "./details.css";
 import DetailsWithoutVideo from "../components/DetailsWithoutVideo/DetailsWithoutVideo";
+import PageNotFound from "../components/PageNotFound/PageNotFound";
 
 interface Genre {
   id: number;
@@ -33,48 +34,34 @@ const MovieDetails = () => {
     movieContext;
 
   useEffect(() => {
-    const fetchMovie = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetchMovieDetails(Number(id));
-        setMovie(response);
+        const movieResponse = await fetchMovieDetails(Number(id));
+        setMovie(movieResponse);
+        const castResponse = await fetchCastMembersForMovie(Number(id));
+        setCastMembers(castResponse);
+        const similarMoviesResponse = await fetchSimilarMovies(Number(id));
+        setSimilarMovies(similarMoviesResponse);
       } catch (error) {
-        console.log("Error fetching movie details", error);
+        console.log("Error fetching data", error);
       }
     };
 
-    const fetchCastMembers = async () => {
-      try {
-        const response = await fetchCastMembersForMovie(Number(id));
-        setCastMembers(response);
-      } catch (error) {
-        console.log("Error fetching movie details", error);
-      }
-    };
-
-    const fetchSimilarMoviesById = async () => {
-      try {
-        const response = await fetchSimilarMovies(Number(id));
-        setSimilarMovies(response);
-      } catch (error) {
-        console.log("Error fetching movie details", error);
-      }
-    };
-
-    fetchMovie();
-    fetchCastMembers();
-    fetchSimilarMoviesById();
+    fetchData();
     //eslint-disable-next-line
   }, [id]);
 
-  console.log(similarMovies);
+  console.log(movie);
   return (
     <div className="details-container">
-      {movie && (
+      {movie !== null && Object.keys(movie as Movie).length !== 0 ? (
         <DetailsWithoutVideo
           data={movie}
           similar={similarMovies}
           castMembers={castMembers}
         />
+      ) : (
+        <PageNotFound/>
       )}
     </div>
   );

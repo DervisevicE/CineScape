@@ -4,6 +4,9 @@ import {
   fetchTopratedTVShows,
   fetchPopularTVShows,
   fetchShowGenres,
+  fetchTVShowDetails,
+  fetchCastMembersForTVShow,
+  fetchSimilarTVShows,
 } from "../api/moviedb";
 
 interface SeriesContextType {
@@ -11,6 +14,9 @@ interface SeriesContextType {
   topRatedTVShows: any[];
   popularTVShows: any[];
   showGenres: any[];
+  fetchTVShowDetails: (showId: number) => Promise<any>;
+  fetchCastMembersForTVShow: (showId: number) => Promise<any>;
+  fetchSimilarTVShows: (showId: number) => Promise<any>;
 }
 
 const SeriesContext = createContext<SeriesContextType | null>(null);
@@ -59,11 +65,44 @@ export const SeriesProvider = ({ children }: { children: React.ReactNode }) => {
     getShowGenres();
   }, []);
 
+  const fetchTVShowDetailsById = async (showId: number) => {
+    try {
+      const response = await fetchTVShowDetails(showId);
+      return response;
+    } catch (error) {
+      console.log("Error fetching show details:", error);
+      return null;
+    }
+  };
+
+  const fetchCastMembersForTVShowById = async (showId: number) => {
+    try {
+      const response = await fetchCastMembersForTVShow(showId);
+      return response.cast;
+    } catch (error) {
+      console.log("Error fetching cast members for show:", error);
+      return null;
+    }
+  };
+
+  const fetchSimilarTVShowsById = async (showId: number) => {
+    try {
+      const response = await fetchSimilarTVShows(showId);
+      return response.results;
+    } catch (error) {
+      console.log("Error fetching cast similar shows:", error);
+      return null;
+    }
+  };
+
   const seriesContextValue: SeriesContextType = {
     trendingTVShows,
     topRatedTVShows,
     popularTVShows,
     showGenres,
+    fetchTVShowDetails: fetchTVShowDetailsById,
+    fetchCastMembersForTVShow: fetchCastMembersForTVShowById,
+    fetchSimilarTVShows: fetchSimilarTVShowsById,
   };
 
   return (
