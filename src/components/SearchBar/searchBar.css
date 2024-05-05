@@ -1,7 +1,5 @@
 .search-bar-container {
-  padding-top: 60px;
-  width: 95%;
-  margin: auto;
+  width: 30%;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
@@ -11,7 +9,7 @@
   background-position: 6px 10px;
   background-repeat: no-repeat;
   background-color: transparent;
-  width: 50%;
+  width: 100%;
   font-size: 16px;
   padding: 12px 20px 12px 40px;
   border: 2px solid #252837;
