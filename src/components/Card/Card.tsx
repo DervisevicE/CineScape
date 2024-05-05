@@ -2,6 +2,7 @@
 
 import React from "react";
 import "./card.css";
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface CardProps {
   data: {
@@ -14,8 +15,14 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ data, getGenreNames }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleCardClick = () => {
+    navigate(`${location.pathname}/${data.id}`);
+  };
   return (
-    <div key={data.id} className="card">
+    <div key={data.id} className="card" onClick={handleCardClick}>
       <div
         className="poster"
         style={{

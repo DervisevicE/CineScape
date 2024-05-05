@@ -1,0 +1,79 @@
+.details-container {
+  height: 100%;
+}
+
+.banner {
+  height: 50vh;
+  position: relative;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.banner::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-image: linear-gradient(to top, #1e202c, rgba(255, 255, 255, 0));
+}
+
+.main-details-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.poster-card {
+  position: relative;
+  margin-top: -250px;
+  padding-left: 65px;
+  width: 30%;
+  height: 100%;
+}
+
+.details-poster {
+  width: 100%;
+  height: 500px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2),
+    0 6px 32px 0 rgba(255, 255, 255, 0.19);
+}
+
+.main-details {
+  width: 80%;
+  padding: 20px 40px;
+  text-align: left;
+}
+
+.details-genres {
+  padding: 10px 0px;
+  font-size: 12px;
+}
+
+.details-genres span {
+  color: rgba(255, 255, 255, 0.567);
+}
+
+.details-title p {
+  font-size: 26px;
+  padding: 10px 0px;
+}
+
+.details-overview p {
+  font-size: 14px;
+  padding: 10px 20px 0px 0px;
+}

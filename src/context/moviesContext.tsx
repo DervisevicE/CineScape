@@ -4,6 +4,7 @@ import {
   fetchUpcomingMovies,
   fetchTopratedMovies,
   fetchMovieGenres,
+  fetchMovieDetails,
 } from "../api/moviedb";
 
 interface MovieContextType {
@@ -11,6 +12,7 @@ interface MovieContextType {
   upcomingMovies: any[];
   topRatedMovies: any[];
   movieGenres: any[];
+  fetchMovieDetails: (movieId: number) => Promise<any>;
 }
 
 const MovieContext = createContext<MovieContextType | null>(null);
@@ -60,11 +62,22 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
     getMovieGenres();
   }, []);
 
+  const fetchMovieDetailsById = async (movieId: number) => {
+    try {
+      const response = await fetchMovieDetails(movieId);
+      return response;
+    } catch (error) {
+      console.log("Error fetching movie details:", error);
+      return null;
+    }
+  };
+
   const movieContextValue: MovieContextType = {
     trendingMovies,
     upcomingMovies,
     topRatedMovies,
     movieGenres,
+    fetchMovieDetails: fetchMovieDetailsById,
   };
 
   return (
