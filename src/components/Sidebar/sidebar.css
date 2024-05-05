@@ -1,14 +1,13 @@
 .container {
+  background-color: #1e202c;
   width: 250px;
   position: fixed;
   height: 100%;
   padding: 60px 0 0 0;
   transition: background-color 0.3s ease-in-out;
+  z-index: 1;
 }
 
-.container {
-  background-color: #1e202c;
-}
 
 .logo-container {
   display: flex;
@@ -59,11 +58,12 @@
   .hamburger {
     display: block;
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     top: 20px;
     left: 20px;
   }
   .container {
+    background-color: #1e202cf2;
     transform: translateX(-250px);
     transition: transform 0.3s ease-in-out;
   }
