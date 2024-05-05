@@ -19,7 +19,9 @@ const Card: React.FC<CardProps> = ({ data, getGenreNames }) => {
   const location = useLocation();
 
   const handleCardClick = () => {
-    navigate(`${location.pathname}/${data.id}`);
+    setTimeout(() => {
+      navigate(`${location.pathname}/${data.id}`);
+    }, 1000);
   };
   return (
     <div key={data.id} className="card" onClick={handleCardClick}>
