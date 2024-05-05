@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useMovieContext } from "../context/moviesContext";
 import "./details.css";
-import Carousel from "../components/Carousel/Carousel";
+import DetailsWithoutVideo from "../components/DetailsWithoutVideo/DetailsWithoutVideo";
 
 interface Genre {
   id: number;
@@ -26,8 +26,6 @@ const MovieDetails = () => {
   const [movie, setMovie] = useState<Movie | null>(null);
   const [castMembers, setCastMembers] = useState<CastMember[] | null>(null);
   const [similarMovies, setSimilarMovies] = useState<any[]>([]);
-
-  const navigate = useNavigate();
 
   const { id } = useParams();
   const movieContext = useMovieContext();
@@ -72,48 +70,11 @@ const MovieDetails = () => {
   return (
     <div className="details-container">
       {movie && (
-        <>
-          <div
-            className="banner"
-            style={{
-              backgroundImage: `url(https://image.tmdb.org/t/p/w500/${movie?.backdrop_path})`,
-            }}
-          >
-            <div className="back-arrow" onClick={() => navigate(-1)}>
-              &#10094;
-            </div>
-          </div>
-
-          <div className="main-details-container">
-            <div className="poster-card">
-              <div
-                className="details-poster"
-                style={{
-                  backgroundImage: `url(https://image.tmdb.org/t/p/w500/${movie?.poster_path})`,
-                }}
-              ></div>
-            </div>
-
-            <div className="main-details">
-              <div className="details-genres">
-                {movie.genres.map((genre, index) => (
-                  <span key={genre.id}>
-                    {index > 0 && " | "}
-                    {genre.name}
-                  </span>
-                ))}
-              </div>
-
-              <div className="details-title">
-                <p>{movie?.title}</p>
-              </div>
-              <div className="details-overview">
-                <p>{movie?.overview}</p>
-              </div>
-            </div>
-          </div>
-          <Carousel items={similarMovies} />
-        </>
+        <DetailsWithoutVideo
+          data={movie}
+          similar={similarMovies}
+          castMembers={castMembers}
+        />
       )}
     </div>
   );
