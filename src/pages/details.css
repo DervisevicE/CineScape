@@ -84,3 +84,24 @@
   position: relative;
   padding: 20px 0px 0px 30px;
 }
+
+.cast-member-list {
+  margin-top: 20px;
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.cast-member-item {
+  margin:10px 0px 10px 0px
+}
+
+.cast-member-name {
+  font-size: 14px;
+  padding-bottom: 10px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #bbbb;
+  margin: 5px 0;
+}

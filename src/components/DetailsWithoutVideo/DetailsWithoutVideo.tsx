@@ -75,6 +75,17 @@ const DetailsWithoutVideo: React.FC<DetailsProps> = ({
               <div className="details-overview">
                 <p>{data?.overview}</p>
               </div>
+
+              <div className="cast-member-list">
+                {castMembers?.map((member, index) => (
+                  <div key={index} className="cast-member-item">
+                    <p className="cast-member-name">{member.name}</p>
+                    {index !== castMembers.length - 1 && (
+                      <hr className="divider" />
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <Carousel items={similar} />
