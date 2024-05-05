@@ -1,0 +1,58 @@
+.similar-container {
+  padding-top: 50px;
+  width: 95%;
+  margin: auto;
+}
+.carousel-container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.carousel-card .poster{
+  margin-bottom: 10px;
+  width: 200px;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel-card {
+  flex: 0 0 auto;
+  width: 150px;
+  height: 100%;
+  margin-right: 20px;
+  padding: 20px;
+  text-align: left;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 12px;
+  border-radius: 50%;
+  border: none;
+  z-index: 100000;
+}
+
+.prev {
+  left: 10px;
+  z-index: 100000;
+}
+
+.next {
+  right: 10px;
+  z-index: 100000;
+}
