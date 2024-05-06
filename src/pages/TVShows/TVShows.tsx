@@ -75,32 +75,34 @@ const TVShows = () => {
     <div className="list-container">
       <div className="top-bar-container">
         <p className="title">Discover TV Shows</p>
-        <div className="select-options">
-          <p
-            className={`select-option ${
-              selectedOption === "trending" ? "selected" : ""
-            }`}
-            onClick={() => handleOptionClick("trending")}
-          >
-            Trending
-          </p>
-          <p
-            className={`select-option ${
-              selectedOption === "popular" ? "selected" : ""
-            }`}
-            onClick={() => handleOptionClick("popular")}
-          >
-            Popular
-          </p>
-          <p
-            className={`select-option ${
-              selectedOption === "topRated" ? "selected" : ""
-            }`}
-            onClick={() => handleOptionClick("topRated")}
-          >
-            Top Rated
-          </p>
-        </div>
+        {!searchResults.length && (
+          <div className="select-options">
+            <p
+              className={`select-option ${
+                selectedOption === "trending" ? "selected" : ""
+              }`}
+              onClick={() => handleOptionClick("trending")}
+            >
+              Trending
+            </p>
+            <p
+              className={`select-option ${
+                selectedOption === "popular" ? "selected" : ""
+              }`}
+              onClick={() => handleOptionClick("popular")}
+            >
+              Popular
+            </p>
+            <p
+              className={`select-option ${
+                selectedOption === "topRated" ? "selected" : ""
+              }`}
+              onClick={() => handleOptionClick("topRated")}
+            >
+              Top Rated
+            </p>
+          </div>
+        )}
         <SearchBar />
       </div>
 
