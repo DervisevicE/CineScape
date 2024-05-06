@@ -62,7 +62,7 @@ const TVShowDetails = () => {
     //eslint-disable-next-line
   }, [id]);
 
-  const trailerVideo = videos.find((video) => video.type === "Trailer");
+  const trailerVideo = videos?.find((video) => video.type === "Trailer");
   const youtubeUrl = trailerVideo
     ? `https://www.youtube.com/embed/${trailerVideo.key}`
     : "";
