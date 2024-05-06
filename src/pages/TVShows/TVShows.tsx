@@ -83,6 +83,9 @@ const Movies = () => {
           <Card data={show} getGenreNames={getGenreNames} />
         ))}
       </div>
+      <div className="load-more-btn-container">
+        <button className="load-more-btn">Load more</button>
+      </div>
     </div>
   );
 };

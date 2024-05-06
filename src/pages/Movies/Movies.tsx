@@ -83,6 +83,11 @@ const Movies = () => {
           <Card key={movie.id} data={movie} getGenreNames={getGenreNames} />
         ))}
       </div>
+      <div>
+        <div className="load-more-btn-container">
+        <button className="load-more-btn">Load more</button>
+      </div>
+      </div>
     </div>
   );
 };

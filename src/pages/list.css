@@ -46,6 +46,33 @@
   transform: scale(1.1);
 }
 
+.load-more-btn-container {
+  width: 100%;
+  height: 100%;
+  padding: 30px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.load-more-btn {
+  color: black;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #f5f5f5;
+  border: 2px solid #f5f5f5;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.load-more-btn:hover {
+  color: #f5f5f5;
+  cursor: pointer;
+  background-color: #283849;
+  border-color: #283849;
+}
+
 @media screen and (max-width: 768px) {
   .grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -53,7 +80,7 @@
 
   .select-options {
     flex-wrap: wrap;
-    justify-content: flex-start; 
+    justify-content: flex-start;
   }
 
   .select-option {
