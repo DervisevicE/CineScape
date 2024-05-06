@@ -88,11 +88,22 @@ export const fetchMovieGenres = async () => {
   }
 };
 
-
 export const fetchSearchMovies = async (query) => {
   try {
     const response = await axios.get(
       `${apiUrl}/search/movie?api_key=${apiKey}&query=${query}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("error: ", error);
+    return {};
+  }
+};
+
+export const fetchVideosForMovie = async (movieId) => {
+  try {
+    const response = await axios.get(
+      `${apiUrl}/movie/${movieId}/videos?api_key=${apiKey}`
     );
     return response.data;
   } catch (error) {
@@ -182,6 +193,18 @@ export const fetchSearchTVShows = async (query) => {
 export const fetchShowGenres = async () => {
   try {
     const response = await axios.get(showGenres);
+    return response.data;
+  } catch (error) {
+    console.log("error: ", error);
+    return {};
+  }
+};
+
+export const fetchVideosForShow = async (seriesId) => {
+  try {
+    const response = await axios.get(
+      `${apiUrl}/tv/${seriesId}/videos?api_key=${apiKey}`
+    );
     return response.data;
   } catch (error) {
     console.log("error: ", error);

@@ -7,6 +7,7 @@ import {
   fetchTVShowDetails,
   fetchCastMembersForTVShow,
   fetchSimilarTVShows,
+  fetchVideosForShow
 } from "../api/moviedb";
 
 interface SeriesContextType {
@@ -17,6 +18,7 @@ interface SeriesContextType {
   fetchTVShowDetails: (showId: number) => Promise<any>;
   fetchCastMembersForTVShow: (showId: number) => Promise<any>;
   fetchSimilarTVShows: (showId: number) => Promise<any>;
+  fetchVideosForShow: (showId: number) => Promise<any>;
 }
 
 const SeriesContext = createContext<SeriesContextType | null>(null);
@@ -95,6 +97,16 @@ export const SeriesProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const fetchVideosForShowById = async (showId: number) => {
+    try {
+      const response = await fetchVideosForShow(showId);
+      return response.results;
+    } catch (error) {
+      console.log("Error fetching cast videos for show:", error);
+      return null;
+    }
+  };
+
   const seriesContextValue: SeriesContextType = {
     trendingTVShows,
     topRatedTVShows,
@@ -103,6 +115,7 @@ export const SeriesProvider = ({ children }: { children: React.ReactNode }) => {
     fetchTVShowDetails: fetchTVShowDetailsById,
     fetchCastMembersForTVShow: fetchCastMembersForTVShowById,
     fetchSimilarTVShows: fetchSimilarTVShowsById,
+    fetchVideosForShow: fetchVideosForShowById
   };
 
   return (

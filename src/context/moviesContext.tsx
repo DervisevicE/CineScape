@@ -7,6 +7,7 @@ import {
   fetchMovieDetails,
   fetchCastMembersForMovie,
   fetchSimilarMovies,
+  fetchVideosForMovie
 } from "../api/moviedb";
 
 interface MovieContextType {
@@ -17,6 +18,7 @@ interface MovieContextType {
   fetchMovieDetails: (movieId: number) => Promise<any>;
   fetchCastMembersForMovie: (movieId: number) => Promise<any>;
   fetchSimilarMovies: (movieId: number) => Promise<any>;
+  fetchVideosForMovie: (movieId: number) => Promise<any>;
 }
 
 const MovieContext = createContext<MovieContextType | null>(null);
@@ -96,6 +98,16 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const fetchVideosForMovieById = async (movieId: number) => {
+    try {
+      const response = await fetchVideosForMovie(movieId);
+      return response.results;
+    } catch (error) {
+      console.log("Error fetching videos for movie:", error);
+      return null;
+    }
+  };
+
   const movieContextValue: MovieContextType = {
     trendingMovies,
     upcomingMovies,
@@ -104,6 +116,7 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
     fetchMovieDetails: fetchMovieDetailsById,
     fetchCastMembersForMovie: fetchCastMembersForMovieById,
     fetchSimilarMovies: fetchSimilarMoviesById,
+    fetchVideosForMovie: fetchVideosForMovieById
   };
 
   return (

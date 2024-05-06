@@ -4,6 +4,7 @@ import { useMovieContext } from "../context/moviesContext";
 import "./details.css";
 import DetailsWithoutVideo from "../components/DetailsWithoutVideo/DetailsWithoutVideo";
 import PageNotFound from "../components/PageNotFound/PageNotFound";
+import DetailsWithVideo from "../components/DetailsWithVideo/DetailsWithVideo";
 
 interface Genre {
   id: number;
@@ -27,11 +28,16 @@ const MovieDetails = () => {
   const [movie, setMovie] = useState<Movie | null>(null);
   const [castMembers, setCastMembers] = useState<CastMember[] | null>(null);
   const [similarMovies, setSimilarMovies] = useState<any[]>([]);
+  const [videos, setVideos] = useState<any[]>([]);
 
   const { id } = useParams();
   const movieContext = useMovieContext();
-  const { fetchMovieDetails, fetchCastMembersForMovie, fetchSimilarMovies } =
-    movieContext;
+  const {
+    fetchMovieDetails,
+    fetchCastMembersForMovie,
+    fetchSimilarMovies,
+    fetchVideosForMovie,
+  } = movieContext;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,6 +48,8 @@ const MovieDetails = () => {
         setCastMembers(castResponse);
         const similarMoviesResponse = await fetchSimilarMovies(Number(id));
         setSimilarMovies(similarMoviesResponse);
+        const videosResponse = await fetchVideosForMovie(Number(id));
+        setVideos(videosResponse);
       } catch (error) {
         console.log("Error fetching data", error);
       }
@@ -51,17 +59,33 @@ const MovieDetails = () => {
     //eslint-disable-next-line
   }, [id]);
 
-  console.log(movie);
+  const trailerVideo = videos.find((video) => video.type === "Trailer");
+  const youtubeUrl = trailerVideo
+    ? `https://www.youtube.com/embed/${trailerVideo.key}`
+    : "";
+
+  console.log(trailerVideo);
   return (
     <div className="details-container">
       {movie !== null && Object.keys(movie as Movie).length !== 0 ? (
-        <DetailsWithoutVideo
-          data={movie}
-          similar={similarMovies}
-          castMembers={castMembers}
-        />
+        <>
+          {youtubeUrl ? (
+            <DetailsWithVideo
+              data={movie}
+              similar={similarMovies}
+              castMembers={castMembers}
+              youtubeUrl={youtubeUrl}
+            />
+          ) : (
+            <DetailsWithoutVideo
+              data={movie}
+              similar={similarMovies}
+              castMembers={castMembers}
+            />
+          )}
+        </>
       ) : (
-        <PageNotFound/>
+        <PageNotFound />
       )}
     </div>
   );

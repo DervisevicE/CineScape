@@ -23,8 +23,6 @@ const Carousel: React.FC<Props> = ({ items }) => {
 
   const navigate = useNavigate();
 
-  console.log(location);
-
   const goToNext = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === numItems - 1 ? 0 : prevIndex + 1
