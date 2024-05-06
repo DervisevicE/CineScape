@@ -25,6 +25,7 @@ interface CastMember {
 }
 
 const MovieDetails = () => {
+  const [loading, setLoading] = useState<Boolean | null>(false);
   const [movie, setMovie] = useState<Movie | null>(null);
   const [castMembers, setCastMembers] = useState<CastMember[] | null>(null);
   const [similarMovies, setSimilarMovies] = useState<any[]>([]);
@@ -42,6 +43,7 @@ const MovieDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const movieResponse = await fetchMovieDetails(Number(id));
         setMovie(movieResponse);
         const castResponse = await fetchCastMembersForMovie(Number(id));
@@ -50,6 +52,7 @@ const MovieDetails = () => {
         setSimilarMovies(similarMoviesResponse);
         const videosResponse = await fetchVideosForMovie(Number(id));
         setVideos(videosResponse);
+        setLoading(false);
       } catch (error) {
         console.log("Error fetching data", error);
       }
@@ -67,25 +70,33 @@ const MovieDetails = () => {
   console.log(trailerVideo);
   return (
     <div className="details-container">
-      {movie !== null && Object.keys(movie as Movie).length !== 0 ? (
+      {loading ? (
+        <div className="loader-container">
+          <div className="loader"></div>
+        </div>
+      ) : (
         <>
-          {youtubeUrl ? (
-            <DetailsWithVideo
-              data={movie}
-              similar={similarMovies}
-              castMembers={castMembers}
-              youtubeUrl={youtubeUrl}
-            />
+          {movie !== null && Object.keys(movie as Movie).length !== 0 ? (
+            <>
+              {youtubeUrl ? (
+                <DetailsWithVideo
+                  data={movie}
+                  similar={similarMovies}
+                  castMembers={castMembers}
+                  youtubeUrl={youtubeUrl}
+                />
+              ) : (
+                <DetailsWithoutVideo
+                  data={movie}
+                  similar={similarMovies}
+                  castMembers={castMembers}
+                />
+              )}
+            </>
           ) : (
-            <DetailsWithoutVideo
-              data={movie}
-              similar={similarMovies}
-              castMembers={castMembers}
-            />
+            <PageNotFound />
           )}
         </>
-      ) : (
-        <PageNotFound />
       )}
     </div>
   );

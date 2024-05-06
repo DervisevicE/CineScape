@@ -25,6 +25,7 @@ interface CastMember {
 }
 
 const TVShowDetails = () => {
+  const [loading, setLoading] = useState<Boolean | null>(false);
   const [show, setShow] = useState<TVShow | null>(null);
   const [castMembers, setCastMembers] = useState<CastMember[] | null>(null);
   const [similarShows, setSimilarShows] = useState<any[]>([]);
@@ -42,6 +43,7 @@ const TVShowDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const showResponse = await fetchTVShowDetails(Number(id));
         setShow(showResponse);
         const castResponse = await fetchCastMembersForTVShow(Number(id));
@@ -50,6 +52,7 @@ const TVShowDetails = () => {
         setSimilarShows(similarShowsResponse);
         const videosResponse = await fetchVideosForShow(Number(id));
         setVideos(videosResponse);
+        setLoading(false);
       } catch (error) {
         console.log("Error fetching data", error);
       }
@@ -67,25 +70,33 @@ const TVShowDetails = () => {
   console.log(youtubeUrl);
   return (
     <div className="details-container">
-      {show !== null && Object.keys(show as TVShow).length !== 0 ? (
+      {loading ? (
+        <div className="loader-container">
+          <div className="loader"></div>
+        </div>
+      ) : (
         <>
-          {youtubeUrl ? (
-            <DetailsWithVideo
-              data={show}
-              similar={similarShows}
-              castMembers={castMembers}
-              youtubeUrl={youtubeUrl}
-            />
+          {show !== null && Object.keys(show as TVShow).length !== 0 ? (
+            <>
+              {youtubeUrl ? (
+                <DetailsWithVideo
+                  data={show}
+                  similar={similarShows}
+                  castMembers={castMembers}
+                  youtubeUrl={youtubeUrl}
+                />
+              ) : (
+                <DetailsWithoutVideo
+                  data={show}
+                  similar={similarShows}
+                  castMembers={castMembers}
+                />
+              )}
+            </>
           ) : (
-            <DetailsWithoutVideo
-              data={show}
-              similar={similarShows}
-              castMembers={castMembers}
-            />
+            <PageNotFound />
           )}
         </>
-      ) : (
-        <PageNotFound />
       )}
     </div>
   );
