@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import { MovieProvider } from "./context/moviesContext";
 import { SeriesProvider } from "./context/seriesContex";
 import { BrowserRouter } from "react-router-dom";
+import { SearchProvider } from "./context/searchContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,7 +15,9 @@ root.render(
     <BrowserRouter>
       <MovieProvider>
         <SeriesProvider>
-          <App />
+          <SearchProvider>
+            <App />
+          </SearchProvider>
         </SeriesProvider>
       </MovieProvider>
     </BrowserRouter>

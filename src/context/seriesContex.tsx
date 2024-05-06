@@ -7,7 +7,8 @@ import {
   fetchTVShowDetails,
   fetchCastMembersForTVShow,
   fetchSimilarTVShows,
-  fetchVideosForShow
+  fetchVideosForShow,
+  fetchSearchTVShows,
 } from "../api/moviedb";
 
 interface SeriesContextType {
@@ -19,6 +20,8 @@ interface SeriesContextType {
   fetchCastMembersForTVShow: (showId: number) => Promise<any>;
   fetchSimilarTVShows: (showId: number) => Promise<any>;
   fetchVideosForShow: (showId: number) => Promise<any>;
+  searchShows: (query: string) => void;
+  searchResults: any[];
 }
 
 const SeriesContext = createContext<SeriesContextType | null>(null);
@@ -36,6 +39,7 @@ export const SeriesProvider = ({ children }: { children: React.ReactNode }) => {
   const [topRatedTVShows, setTopRatedTVShows] = useState<any[]>([]);
   const [popularTVShows, setPopularTVShows] = useState<any[]>([]);
   const [showGenres, setShowGenres] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
 
   useEffect(() => {
     const getTrendingTVShows = async () => {
@@ -107,6 +111,11 @@ export const SeriesProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const searchShows = async (query: string) => {
+    const results = await fetchSearchTVShows(query);
+    setSearchResults(results.results || []);
+  };
+
   const seriesContextValue: SeriesContextType = {
     trendingTVShows,
     topRatedTVShows,
@@ -115,7 +124,9 @@ export const SeriesProvider = ({ children }: { children: React.ReactNode }) => {
     fetchTVShowDetails: fetchTVShowDetailsById,
     fetchCastMembersForTVShow: fetchCastMembersForTVShowById,
     fetchSimilarTVShows: fetchSimilarTVShowsById,
-    fetchVideosForShow: fetchVideosForShowById
+    fetchVideosForShow: fetchVideosForShowById,
+    searchShows,
+    searchResults,
   };
 
   return (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import { useMovieContext } from "../context/moviesContext";
 import "./details.css";
 import DetailsWithoutVideo from "../components/DetailsWithoutVideo/DetailsWithoutVideo";
@@ -15,6 +15,7 @@ interface Movie {
   poster_path: string;
   backdrop_path: string;
   title: string;
+  name:string,
   overview: string;
   genres: Genre[];
 }

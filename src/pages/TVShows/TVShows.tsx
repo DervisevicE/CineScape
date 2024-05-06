@@ -1,15 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useSeriesContext } from "../../context/seriesContex";
+import { useSearchContext } from "../../context/searchContext";
 import "../list.css";
 import Card from "../../components/Card/Card";
 import SearchBar from "../../components/SearchBar/SearchBar";
-const Movies = () => {
+
+const TVShows = () => {
   const [selectedOption, setSelectedOption] = useState("trending");
   const [animationClass, setAnimationClass] = useState("");
 
   const movieContext = useSeriesContext();
-  const { trendingTVShows, topRatedTVShows, popularTVShows, showGenres } =
-    movieContext;
+  const {
+    trendingTVShows,
+    topRatedTVShows,
+    popularTVShows,
+    showGenres,
+    searchShows,
+    searchResults,
+  } = movieContext;
+
+  const searchContext = useSearchContext();
+  const { searchQuery } = searchContext;
 
   const handleOptionClick = (option: string) => {
     setAnimationClass("fade-out");
@@ -22,6 +33,18 @@ const Movies = () => {
   useEffect(() => {
     setAnimationClass("fade-in");
   }, []);
+
+  useEffect(() => {
+    setAnimationClass("fade-in");
+    if (searchQuery.length > 2) {
+      setTimeout(() => {
+        searchShows(searchQuery);
+      }, 1000);
+    } else {
+      searchShows("");
+    }
+    //eslint-disable-next-line
+  }, [searchQuery]);
 
   const getGenreNames = (genreIds: number[]) => {
     return genreIds.map((id) => {
@@ -44,6 +67,9 @@ const Movies = () => {
     default:
       showsToDisplay = trendingTVShows;
   }
+
+  const displayShows =
+    searchResults.length > 0 ? searchResults : showsToDisplay;
 
   return (
     <div className="list-container">
@@ -79,15 +105,19 @@ const Movies = () => {
       </div>
 
       <div className={`grid ${animationClass}`}>
-        {showsToDisplay.map((show) => (
+        {displayShows.map((show) => (
           <Card data={show} getGenreNames={getGenreNames} />
         ))}
       </div>
-      <div className="load-more-btn-container">
-        <button className="load-more-btn">Load more</button>
-      </div>
+      {!searchResults ? (
+        <div className="load-more-btn-container">
+          <button className="load-more-btn">Load more</button>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
 
-export default Movies;
+export default TVShows;

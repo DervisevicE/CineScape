@@ -1,5 +1,3 @@
-// Card.jsx
-
 import React from "react";
 import "./card.css";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -9,6 +7,7 @@ interface CardProps {
     id: number;
     poster_path: string;
     title: string;
+    name: string,
     genre_ids: number[];
   };
   getGenreNames: (genreIds: number[]) => string[];
@@ -18,7 +17,6 @@ const Card: React.FC<CardProps> = ({ data, getGenreNames }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log(location);
   const handleCardClick = () => {
     setTimeout(() => {
       navigate(
@@ -28,6 +26,7 @@ const Card: React.FC<CardProps> = ({ data, getGenreNames }) => {
       );
     }, 800);
   };
+
   return (
     <div key={data.id} className="card" onClick={handleCardClick}>
       <div
@@ -40,7 +39,7 @@ const Card: React.FC<CardProps> = ({ data, getGenreNames }) => {
       />
       <div className="card-details">
         <div className="card-title-container">
-          <p className="card-title">{data.title}</p>
+          <p className="card-title">{data.title || data.name}</p>
         </div>
         <div className="card-genre-container">
           <p className="genre">{getGenreNames(data.genre_ids).join(", ")}</p>

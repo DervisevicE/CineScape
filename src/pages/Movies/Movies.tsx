@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useMovieContext } from "../../context/moviesContext";
+import { useSearchContext } from "../../context/searchContext";
 import "../list.css";
 import Card from "../../components/Card/Card";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -9,8 +10,17 @@ const Movies = () => {
   const [animationClass, setAnimationClass] = useState("");
 
   const movieContext = useMovieContext();
-  const { trendingMovies, upcomingMovies, topRatedMovies, movieGenres } =
-    movieContext;
+  const {
+    trendingMovies,
+    upcomingMovies,
+    topRatedMovies,
+    movieGenres,
+    searchResults,
+    searchMovies,
+  } = movieContext;
+
+  const searchContext = useSearchContext();
+  const { searchQuery } = searchContext;
 
   const handleOptionClick = (option: string) => {
     setAnimationClass("fade-out");
@@ -23,6 +33,18 @@ const Movies = () => {
   useEffect(() => {
     setAnimationClass("fade-in");
   }, []);
+
+  useEffect(() => {
+    setAnimationClass("fade-in");
+    if (searchQuery.length > 2) {
+      setTimeout(() => {
+        searchMovies(searchQuery);
+      }, 1000);
+    } else {
+      searchMovies("");
+    }
+    //eslint-disable-next-line
+  }, [searchQuery]);
 
   const getGenreNames = (genreIds: number[]) => {
     return genreIds.map((id) => {
@@ -45,6 +67,9 @@ const Movies = () => {
     default:
       moviesToDisplay = trendingMovies;
   }
+
+  const displayMovies =
+    searchResults.length > 0 ? searchResults : moviesToDisplay;
 
   return (
     <div className="list-container">
@@ -79,14 +104,18 @@ const Movies = () => {
         <SearchBar />
       </div>
       <div className={`grid ${animationClass}`}>
-        {moviesToDisplay.map((movie) => (
+        {displayMovies.map((movie) => (
           <Card key={movie.id} data={movie} getGenreNames={getGenreNames} />
         ))}
       </div>
       <div>
-        <div className="load-more-btn-container">
-        <button className="load-more-btn">Load more</button>
-      </div>
+        {!searchResults ? (
+          <div className="load-more-btn-container">
+            <button className="load-more-btn">Load more</button>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

@@ -7,7 +7,8 @@ import {
   fetchMovieDetails,
   fetchCastMembersForMovie,
   fetchSimilarMovies,
-  fetchVideosForMovie
+  fetchVideosForMovie,
+  fetchSearchMovies,
 } from "../api/moviedb";
 
 interface MovieContextType {
@@ -19,6 +20,8 @@ interface MovieContextType {
   fetchCastMembersForMovie: (movieId: number) => Promise<any>;
   fetchSimilarMovies: (movieId: number) => Promise<any>;
   fetchVideosForMovie: (movieId: number) => Promise<any>;
+  searchMovies: (query: string) => void;
+  searchResults: any[];
 }
 
 const MovieContext = createContext<MovieContextType | null>(null);
@@ -36,6 +39,7 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
   const [upcomingMovies, setUpcomingMovies] = useState<any[]>([]);
   const [topRatedMovies, setTopRatedMovies] = useState<any[]>([]);
   const [movieGenres, setMovieGenres] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
 
   useEffect(() => {
     const getTrendingMovies = async () => {
@@ -108,6 +112,11 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const searchMovies = async (query: string) => {
+    const results = await fetchSearchMovies(query);
+    setSearchResults(results.results || []);
+  };
+
   const movieContextValue: MovieContextType = {
     trendingMovies,
     upcomingMovies,
@@ -116,7 +125,9 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
     fetchMovieDetails: fetchMovieDetailsById,
     fetchCastMembersForMovie: fetchCastMembersForMovieById,
     fetchSimilarMovies: fetchSimilarMoviesById,
-    fetchVideosForMovie: fetchVideosForMovieById
+    fetchVideosForMovie: fetchVideosForMovieById,
+    searchMovies,
+    searchResults,
   };
 
   return (

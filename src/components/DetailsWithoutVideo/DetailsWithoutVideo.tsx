@@ -12,6 +12,7 @@ interface Data {
   poster_path: string;
   backdrop_path: string;
   title: string;
+  name: string;
   overview: string;
   genres: Genre[];
 }
@@ -44,11 +45,11 @@ const DetailsWithoutVideo: React.FC<DetailsProps> = ({
               backgroundImage: `url(https://image.tmdb.org/t/p/w500/${data?.backdrop_path})`,
             }}
           >
-           <div className="back-arrow-container">
-           <div className="back-arrow" onClick={() => navigate(-1)}>
-              &#10094;
+            <div className="back-arrow-container">
+              <div className="back-arrow" onClick={() => navigate(-1)}>
+                &#10094;
+              </div>
             </div>
-           </div>
           </div>
 
           <div className="main-details-container">
@@ -72,7 +73,7 @@ const DetailsWithoutVideo: React.FC<DetailsProps> = ({
               </div>
 
               <div className="details-title">
-                <p>{data?.title}</p>
+                <p>{data?.title || data?.name}</p>
               </div>
               <div className="details-overview">
                 <p>{data?.overview}</p>

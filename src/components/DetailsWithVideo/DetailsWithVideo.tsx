@@ -11,6 +11,7 @@ interface Data {
   poster_path: string;
   backdrop_path: string;
   title: string;
+  name: string;
   overview: string;
   genres: Genre[];
 }
@@ -77,7 +78,7 @@ const DetailsWithVideo: React.FC<DetailsProps> = ({
               </div>
 
               <div className="details-title">
-                <p>{data?.title}</p>
+                <p>{data?.title || data?.name}</p>
               </div>
               <div className="details-overview">
                 <p>{data?.overview}</p>
@@ -87,7 +88,9 @@ const DetailsWithVideo: React.FC<DetailsProps> = ({
                 {castMembers?.map((member, index) => (
                   <div key={index} className="cast-member-item">
                     <p className="cast-member-name">{member.name}</p>
-                    {index !== castMembers.length - 1 && <hr className="divider" />}
+                    {index !== castMembers.length - 1 && (
+                      <hr className="divider" />
+                    )}
                   </div>
                 ))}
               </div>

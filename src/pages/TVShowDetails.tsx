@@ -15,6 +15,7 @@ interface TVShow {
   poster_path: string;
   backdrop_path: string;
   title: string;
+  name: string,
   overview: string;
   genres: Genre[];
 }
