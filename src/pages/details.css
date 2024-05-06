@@ -49,7 +49,7 @@
   height: 100%;
 }
 
-.video-poster-card{
+.video-poster-card {
   position: relative;
   margin-top: 50px;
   padding-left: 65px;
@@ -72,7 +72,7 @@
   text-align: left;
 }
 
-.video-main-details{
+.video-main-details {
   width: 60%;
   padding: 80px 40px;
   text-align: left;
@@ -102,7 +102,7 @@
   position: absolute;
   transform: translateY(-50%);
   cursor: pointer;
-  background-color: rgba(105, 105, 105, 0.6);
+  background-color: rgba(65, 63, 63, 0.689);
   top: 10%;
   left: 2%;
   padding: 12px;

@@ -78,7 +78,6 @@ const Movies = () => {
         <SearchBar />
       </div>
 
-      {/* <p className="title">Trending TV Shows</p> */}
       <div className={`grid ${animationClass}`}>
         {showsToDisplay.map((show) => (
           <Card data={show} getGenreNames={getGenreNames} />

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSeriesContext } from "../context/seriesContex";
 import "./details.css";
 import DetailsWithoutVideo from "../components/DetailsWithoutVideo/DetailsWithoutVideo";
+import DetailsWithVideo from "../components/DetailsWithVideo/DetailsWithVideo";
 import PageNotFound from "../components/PageNotFound/PageNotFound";
 
 interface Genre {
@@ -27,54 +28,62 @@ const TVShowDetails = () => {
   const [show, setShow] = useState<TVShow | null>(null);
   const [castMembers, setCastMembers] = useState<CastMember[] | null>(null);
   const [similarShows, setSimilarShows] = useState<any[]>([]);
+  const [videos, setVideos] = useState<any[]>([]);
 
   const { id } = useParams();
   const seriesContex = useSeriesContext();
-  const { fetchTVShowDetails, fetchCastMembersForTVShow, fetchSimilarTVShows } =
-    seriesContex;
+  const {
+    fetchTVShowDetails,
+    fetchCastMembersForTVShow,
+    fetchSimilarTVShows,
+    fetchVideosForShow,
+  } = seriesContex;
 
   useEffect(() => {
-    const fetchShow = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetchTVShowDetails(Number(id));
-        setShow(response);
+        const showResponse = await fetchTVShowDetails(Number(id));
+        setShow(showResponse);
+        const castResponse = await fetchCastMembersForTVShow(Number(id));
+        setCastMembers(castResponse);
+        const similarShowsResponse = await fetchSimilarTVShows(Number(id));
+        setSimilarShows(similarShowsResponse);
+        const videosResponse = await fetchVideosForShow(Number(id));
+        setVideos(videosResponse);
       } catch (error) {
-        console.log("Error fetching show details", error);
+        console.log("Error fetching data", error);
       }
     };
 
-    const fetchCastMembers = async () => {
-      try {
-        const response = await fetchCastMembersForTVShow(Number(id));
-        setCastMembers(response);
-      } catch (error) {
-        console.log("Error fetching show details", error);
-      }
-    };
-
-    const fetchSimilarMoviesById = async () => {
-      try {
-        const response = await fetchSimilarTVShows(Number(id));
-        setSimilarShows(response);
-      } catch (error) {
-        console.log("Error fetching  similar shows", error);
-      }
-    };
-
-    fetchShow();
-    fetchCastMembers();
-    fetchSimilarMoviesById();
+    fetchData();
     //eslint-disable-next-line
   }, [id]);
 
+  const trailerVideo = videos.find((video) => video.type === "Trailer");
+  const youtubeUrl = trailerVideo
+    ? `https://www.youtube.com/embed/${trailerVideo.key}`
+    : "";
+
+  console.log(youtubeUrl);
   return (
     <div className="details-container">
       {show !== null && Object.keys(show as TVShow).length !== 0 ? (
-        <DetailsWithoutVideo
-          data={show}
-          similar={similarShows}
-          castMembers={castMembers}
-        />
+        <>
+          {youtubeUrl ? (
+            <DetailsWithVideo
+              data={show}
+              similar={similarShows}
+              castMembers={castMembers}
+              youtubeUrl={youtubeUrl}
+            />
+          ) : (
+            <DetailsWithoutVideo
+              data={show}
+              similar={similarShows}
+              castMembers={castMembers}
+            />
+          )}
+        </>
       ) : (
         <PageNotFound />
       )}
