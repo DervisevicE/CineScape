@@ -111,13 +111,9 @@ const TVShows = () => {
           <Card data={show} getGenreNames={getGenreNames} />
         ))}
       </div>
-      {!searchResults ? (
-        <div className="load-more-btn-container">
-          <button className="load-more-btn">Load more</button>
-        </div>
-      ) : (
-        <></>
-      )}
+      <div className="load-more-btn-container">
+        <button className="load-more-btn">Load more</button>
+      </div>
     </div>
   );
 };

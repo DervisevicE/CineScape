@@ -6,8 +6,9 @@ import Card from "../../components/Card/Card";
 import SearchBar from "../../components/SearchBar/SearchBar";
 
 const Movies = () => {
-  const [selectedOption, setSelectedOption] = useState("trending");
-  const [animationClass, setAnimationClass] = useState("");
+  const [selectedOption, setSelectedOption] = useState<string>("trending");
+  const [animationClass, setAnimationClass] = useState<string>("");
+  const [keystrokeTime, setKeystrokeTime] = useState<Date>(new Date());
 
   const movieContext = useMovieContext();
   const {
@@ -35,16 +36,27 @@ const Movies = () => {
   }, []);
 
   useEffect(() => {
+    console.log(keystrokeTime)
+  }, [keystrokeTime]);
+
+  useEffect(() => {
     setAnimationClass("fade-in");
     if (searchQuery.length > 2) {
-      setTimeout(() => {
-        searchMovies(searchQuery);
-      }, 1000);
+      const search = () => {
+        const time = new Date().getTime() - keystrokeTime.getTime()
+        if(time > 900){
+          console.log("YESSSS")
+          console.log(time)
+          searchMovies(searchQuery);
+
+        }
+      }
+      setTimeout(() => search(), 1000);
     } else {
       searchMovies("");
     }
     //eslint-disable-next-line
-  }, [searchQuery]);
+  }, [keystrokeTime, searchQuery]);
 
   const getGenreNames = (genreIds: number[]) => {
     return genreIds.map((id) => {
@@ -71,7 +83,6 @@ const Movies = () => {
   const displayMovies =
     searchResults.length > 0 ? searchResults : moviesToDisplay;
 
-  console.log(searchResults.length);
   return (
     <div className="list-container">
       <div className="top-bar-container">
@@ -104,7 +115,7 @@ const Movies = () => {
             </p>
           </div>
         )}
-        <SearchBar />
+        <SearchBar onChange={() => setKeystrokeTime(new Date())} />
       </div>
       <div className={`grid ${animationClass}`}>
         {displayMovies.map((movie) => (
@@ -112,13 +123,9 @@ const Movies = () => {
         ))}
       </div>
       <div>
-        {!searchResults ? (
-          <div className="load-more-btn-container">
-            <button className="load-more-btn">Load more</button>
-          </div>
-        ) : (
-          <></>
-        )}
+        <div className="load-more-btn-container">
+          <button className="load-more-btn">Load more</button>
+        </div>
       </div>
     </div>
   );
