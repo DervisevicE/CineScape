@@ -80,7 +80,7 @@
 
   .select-options {
     flex-wrap: wrap;
-    justify-content: flex-start;
+    flex-direction: column;
   }
 
   .select-option {
