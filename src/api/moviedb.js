@@ -12,9 +12,9 @@ const trendingTVShows = `${apiUrl}/trending/tv/day?api_key=${apiKey}`;
 const topRatedTVShows = `${apiUrl}/tv/top_rated?api_key=${apiKey}`;
 const popularTVShows = `${apiUrl}/tv/popular?api_key=${apiKey}`;
 
-export const fetchTrendingMovies = async () => {
+export const fetchTrendingMovies = async (page) => {
   try {
-    const response = await axios.get(trendingMovies);
+    const response = await axios.get(`${trendingMovies}&page=${page}`);
     return response.data;
   } catch (error) {
     console.log("error: ", error);

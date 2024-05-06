@@ -42,7 +42,7 @@ const Card: React.FC<CardProps> = ({ data, getGenreNames }) => {
           <p className="card-title">{data.title || data.name}</p>
         </div>
         <div className="card-genre-container">
-          <p className="genre">{getGenreNames(data.genre_ids).join(", ")}</p>
+          <p className="genre">{getGenreNames(data?.genre_ids).join(", ")}</p>
         </div>
       </div>
     </div>

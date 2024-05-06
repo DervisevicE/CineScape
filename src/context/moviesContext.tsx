@@ -22,6 +22,7 @@ interface MovieContextType {
   fetchVideosForMovie: (movieId: number) => Promise<any>;
   searchMovies: (query: string) => void;
   searchResults: any[];
+  setPageNumber: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const MovieContext = createContext<MovieContextType | null>(null);
@@ -40,12 +41,28 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
   const [topRatedMovies, setTopRatedMovies] = useState<any[]>([]);
   const [movieGenres, setMovieGenres] = useState<any[]>([]);
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [pageNumber, setPageNumber] = useState<number>(1);
 
   useEffect(() => {
-    const getTrendingMovies = async () => {
-      const response = await fetchTrendingMovies();
+    const getTrendingMovies = async (page: number) => {
+      const moviePage = page / 2 < 1 ? 1 : Math.round(page / 2);
+      console.log("MOVIEPAGE", moviePage);
+      console.log("PAGE", page);
+      const response = await fetchTrendingMovies(moviePage);
       const trending = response.results;
-      setTrendingMovies(trending);
+      if (page % 2 !== 1) {
+        setTrendingMovies((prev) => {
+          let current = [...prev];
+          current.splice((page - 1) * 10, 10, ...trending.slice(10));
+          return current;
+        });
+      } else {
+        setTrendingMovies((prev) => {
+          let current = [...prev];
+          current.splice((page - 1) * 10, 10, ...trending.slice(0,10));
+          return current;
+        });
+      }
     };
 
     const getUpcomingMovies = async () => {
@@ -66,11 +83,11 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
       setMovieGenres(genres);
     };
 
-    getTrendingMovies();
+    getTrendingMovies(pageNumber);
     getUpcomingMovies();
     getTopRatedMovies();
     getMovieGenres();
-  }, []);
+  }, [pageNumber]);
 
   const fetchMovieDetailsById = async (movieId: number) => {
     try {
@@ -128,6 +145,7 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
     fetchVideosForMovie: fetchVideosForMovieById,
     searchMovies,
     searchResults,
+    setPageNumber,
   };
 
   return (

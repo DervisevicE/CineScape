@@ -18,6 +18,7 @@ const Movies = () => {
     movieGenres,
     searchResults,
     searchMovies,
+    setPageNumber,
   } = movieContext;
 
   const searchContext = useSearchContext();
@@ -36,21 +37,20 @@ const Movies = () => {
   }, []);
 
   useEffect(() => {
-    console.log(keystrokeTime)
+    console.log(keystrokeTime);
   }, [keystrokeTime]);
 
   useEffect(() => {
     setAnimationClass("fade-in");
     if (searchQuery.length > 2) {
       const search = () => {
-        const time = new Date().getTime() - keystrokeTime.getTime()
-        if(time > 900){
-          console.log("YESSSS")
-          console.log(time)
+        const time = new Date().getTime() - keystrokeTime.getTime();
+        if (time > 900) {
+          console.log("YESSSS");
+          console.log(time);
           searchMovies(searchQuery);
-
         }
-      }
+      };
       setTimeout(() => search(), 1000);
     } else {
       searchMovies("");
@@ -59,7 +59,7 @@ const Movies = () => {
   }, [keystrokeTime, searchQuery]);
 
   const getGenreNames = (genreIds: number[]) => {
-    return genreIds.map((id) => {
+    return genreIds?.map((id) => {
       const genre = movieGenres.find((genre) => genre.id === id);
       return genre ? genre.name : "Unknown";
     });
@@ -83,6 +83,10 @@ const Movies = () => {
   const displayMovies =
     searchResults.length > 0 ? searchResults : moviesToDisplay;
 
+  const handleLoadMoreClick = () => {
+    setPageNumber((prev) => prev + 1);
+    console.log("LOADING");
+  };
   return (
     <div className="list-container">
       <div className="top-bar-container">
@@ -124,7 +128,9 @@ const Movies = () => {
       </div>
       <div>
         <div className="load-more-btn-container">
-          <button className="load-more-btn">Load more</button>
+          <button onClick={handleLoadMoreClick} className="load-more-btn">
+            Load more
+          </button>
         </div>
       </div>
     </div>
