@@ -51,10 +51,8 @@ const DetailsWithVideo: React.FC<DetailsProps> = ({
                 allowFullScreen
               ></iframe>
             )}
-            <div className="back-arrow-container">
-              <div className="back-arrow" onClick={() => navigate(-1)}>
-                &#10094;
-              </div>
+            <div className="back-arrow-container" onClick={() => navigate(-1)}>
+              <div className="back-arrow">&#10094;</div>
             </div>
           </div>
 
@@ -89,9 +87,7 @@ const DetailsWithVideo: React.FC<DetailsProps> = ({
                 {castMembers?.map((member, index) => (
                   <div key={index} className="cast-member-item">
                     <p className="cast-member-name">{member.name}</p>
-                    {index !== castMembers.length - 1 && (
-                      <hr className="divider" />
-                    )}
+                    {index !== castMembers.length - 1 && <hr className="divider" />}
                   </div>
                 ))}
               </div>

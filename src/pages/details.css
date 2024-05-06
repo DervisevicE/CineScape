@@ -138,3 +138,43 @@
   border-top: 1px solid #bbbb;
   margin: 5px 0;
 }
+
+@media screen and (max-width: 1020px) {
+  .video-poster-card {
+    width: 80%;
+  }
+
+  .poster-card {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main-details-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .video-poster-card,
+  .video-main-details {
+    width: 95%;
+  }
+
+  .video-poster-card {
+    display: none;
+  }
+
+  .poster-card {
+    width: 300px;
+    padding: 0;
+  }
+  .back-arrow-container {
+    left: 6%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .back-arrow-container {
+    left: 12%;
+  }
+}
