@@ -18,7 +18,7 @@ To run CineScape locally:
 
 1. Clone this repository.
 2. Install dependencies by running **npm start** in the project directory.
-3. Obtain an API key from The Movie Database (TMDb) and replace **"YOUR_API_KEY"** in the api/moviedb.js file with your API key.
+3. Obtain an API key from The Movie Database (TMDb) and replace **"apiKey"** in the api/moviedb.js file with your API key.
 4. Run the app using **npm start**.
 5. Open your browser and navigate to **http://localhost:3000** to access the CineScape.
 
