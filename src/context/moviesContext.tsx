@@ -46,8 +46,6 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const getTrendingMovies = async (page: number) => {
       const moviePage = page / 2 < 1 ? 1 : Math.round(page / 2);
-      console.log("MOVIEPAGE", moviePage);
-      console.log("PAGE", page);
       const response = await fetchTrendingMovies(moviePage);
       const trending = response.results;
       if (page % 2 !== 1) {
@@ -59,22 +57,48 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
       } else {
         setTrendingMovies((prev) => {
           let current = [...prev];
-          current.splice((page - 1) * 10, 10, ...trending.slice(0,10));
+          current.splice((page - 1) * 10, 10, ...trending.slice(0, 10));
           return current;
         });
       }
     };
 
-    const getUpcomingMovies = async () => {
-      const response = await fetchUpcomingMovies();
+    const getUpcomingMovies = async (page: number) => {
+      const moviePage = page / 2 < 1 ? 1 : Math.round(page / 2);
+      const response = await fetchUpcomingMovies(moviePage);
       const upcoming = response.results;
-      setUpcomingMovies(upcoming);
+      if (page % 2 !== 1) {
+        setUpcomingMovies((prev) => {
+          let current = [...prev];
+          current.splice((page - 1) * 10, 10, ...upcoming.slice(10));
+          return current;
+        });
+      } else {
+        setUpcomingMovies((prev) => {
+          let current = [...prev];
+          current.splice((page - 1) * 10, 10, ...upcoming.slice(0, 10));
+          return current;
+        });
+      }
     };
 
-    const getTopRatedMovies = async () => {
-      const response = await fetchTopratedMovies();
+    const getTopRatedMovies = async (page: number) => {
+      const moviePage = page / 2 < 1 ? 1 : Math.round(page / 2);
+      const response = await fetchTopratedMovies(moviePage);
       const topRated = response.results;
-      setTopRatedMovies(topRated);
+      if (page % 2 !== 1) {
+        setTopRatedMovies((prev) => {
+          let current = [...prev];
+          current.splice((page - 1) * 10, 10, ...topRated.slice(10));
+          return current;
+        });
+      } else {
+        setTopRatedMovies((prev) => {
+          let current = [...prev];
+          current.splice((page - 1) * 10, 10, ...topRated.slice(0, 10));
+          return current;
+        });
+      }
     };
 
     const getMovieGenres = async () => {
@@ -84,8 +108,8 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     getTrendingMovies(pageNumber);
-    getUpcomingMovies();
-    getTopRatedMovies();
+    getUpcomingMovies(pageNumber);
+    getTopRatedMovies(pageNumber);
     getMovieGenres();
   }, [pageNumber]);
 

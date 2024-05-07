@@ -122,7 +122,7 @@ const Movies = () => {
         <SearchBar onChange={() => setKeystrokeTime(new Date())} />
       </div>
       <div className={`grid ${animationClass}`}>
-        {displayMovies.map((movie) => (
+        {displayMovies?.map((movie) => (
           <Card key={movie.id} data={movie} getGenreNames={getGenreNames} />
         ))}
       </div>

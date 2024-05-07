@@ -22,9 +22,9 @@ export const fetchTrendingMovies = async (page) => {
   }
 };
 
-export const fetchUpcomingMovies = async () => {
+export const fetchUpcomingMovies = async (page) => {
   try {
-    const response = await axios.get(upcomingMovies);
+    const response = await axios.get(`${upcomingMovies}&page=${page}`);
     return response.data;
   } catch (error) {
     console.log("error: ", error);
@@ -32,9 +32,9 @@ export const fetchUpcomingMovies = async () => {
   }
 };
 
-export const fetchTopratedMovies = async () => {
+export const fetchTopratedMovies = async (page) => {
   try {
-    const response = await axios.get(topRatedMovies);
+    const response = await axios.get(`${topRatedMovies}&page=${page}`);
     return response.data;
   } catch (error) {
     console.log("error: ", error);
