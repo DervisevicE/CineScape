@@ -23,7 +23,9 @@ interface SeriesContextType {
   searchShows: (query: string, page: number) => void;
   searchResults: any[];
   searchPageNumber: number;
-  setPageNumber: React.Dispatch<React.SetStateAction<number>>;
+  setTrendingPageNumber: React.Dispatch<React.SetStateAction<number>>;
+  setTopRatedPageNumber: React.Dispatch<React.SetStateAction<number>>;
+  setPopularPageNumber: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const SeriesContext = createContext<SeriesContextType | null>(null);
@@ -42,7 +44,9 @@ export const SeriesProvider = ({ children }: { children: React.ReactNode }) => {
   const [popularTVShows, setPopularTVShows] = useState<any[]>([]);
   const [showGenres, setShowGenres] = useState<any[]>([]);
   const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [trendingPageNumber, setTrendingPageNumber] = useState<number>(1);
+  const [topRatedPageNumber, setTopRatedPageNumber] = useState<number>(1);
+  const [popularPageNumber, setPopularPageNumber] = useState<number>(1);
   const [searchPageNumber, setSearchPageNumber] = useState<number>(1);
 
   useEffect(() => {
@@ -65,6 +69,10 @@ export const SeriesProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
 
+    getTrendingTVShows(trendingPageNumber);
+  }, [trendingPageNumber]);
+
+  useEffect(() => {
     const getTopRatedTVShows = async (page: number) => {
       const moviePage = page / 2 < 1 ? 1 : Math.round(page / 2);
       const response = await fetchTopratedTVShows(moviePage);
@@ -84,6 +92,10 @@ export const SeriesProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
 
+    getTopRatedTVShows(topRatedPageNumber);
+  }, [topRatedPageNumber]);
+
+  useEffect(() => {
     const getPopularTVShows = async (page: number) => {
       const moviePage = page / 2 < 1 ? 1 : Math.round(page / 2);
       const response = await fetchPopularTVShows(moviePage);
@@ -102,17 +114,19 @@ export const SeriesProvider = ({ children }: { children: React.ReactNode }) => {
         });
       }
     };
+
+    getPopularTVShows(popularPageNumber);
+  }, [popularPageNumber]);
+
+  useEffect(() => {
     const getShowGenres = async () => {
       const response = await fetchShowGenres();
       const genres = response.genres;
       setShowGenres(genres);
     };
 
-    getTrendingTVShows(pageNumber);
-    getTopRatedTVShows(pageNumber);
-    getPopularTVShows(pageNumber);
     getShowGenres();
-  }, [pageNumber]);
+  }, []);
 
   const fetchTVShowDetailsById = async (showId: number) => {
     try {
@@ -187,7 +201,9 @@ export const SeriesProvider = ({ children }: { children: React.ReactNode }) => {
     fetchSimilarTVShows: fetchSimilarTVShowsById,
     fetchVideosForShow: fetchVideosForShowById,
     searchShows,
-    setPageNumber,
+    setTrendingPageNumber: setTrendingPageNumber,
+    setPopularPageNumber: setPopularPageNumber,
+    setTopRatedPageNumber: setTopRatedPageNumber,
     searchResults,
     searchPageNumber,
   };

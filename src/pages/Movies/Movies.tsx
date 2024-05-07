@@ -19,7 +19,9 @@ const Movies = () => {
     searchResults,
     searchMovies,
     searchPageNumber,
-    setPageNumber,
+    setTrendingPageNumber,
+    setUpcomingPageNumber,
+    setTopRatedPageNumber,
   } = movieContext;
 
   const searchContext = useSearchContext();
@@ -83,7 +85,13 @@ const Movies = () => {
       const nextPage = searchPageNumber + 1;
       searchMovies(searchQuery, nextPage);
     } else {
-      setPageNumber((prev) => prev + 1);
+      if (selectedOption === "trending") {
+        setTrendingPageNumber((prev) => prev + 1);
+      } else if (selectedOption === "upcoming") {
+        setUpcomingPageNumber((prev) => prev + 1);
+      } else {
+        setTopRatedPageNumber((prev) => prev + 1);
+      }
     }
   };
 

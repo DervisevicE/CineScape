@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useSeriesContext } from "../context/seriesContex";
-import "./details.css";
-import DetailsWithoutVideo from "../components/DetailsWithoutVideo/DetailsWithoutVideo";
-import DetailsWithVideo from "../components/DetailsWithVideo/DetailsWithVideo";
-import PageNotFound from "../components/PageNotFound/PageNotFound";
+import { useSeriesContext } from "../../context/seriesContex";
+import "../details.css";
+import DetailsWithoutVideo from "../../components/DetailsWithoutVideo/DetailsWithoutVideo";
+import DetailsWithVideo from "../../components/DetailsWithVideo/DetailsWithVideo";
+import PageNotFound from "../../components/PageNotFound/PageNotFound";
 
 interface Genre {
   id: number;

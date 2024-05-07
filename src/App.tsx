@@ -5,8 +5,8 @@ import { Route, Routes } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Movies from "./pages/Movies/Movies";
 import TVShows from "./pages/TVShows/TVShows";
-import MovieDetails from "./pages/MovieDetails";
-import TVShowDetails from "./pages/TVShowDetails";
+import MovieDetails from "./pages/Movies/MovieDetails";
+import TVShowDetails from "./pages/TVShows/TVShowDetails";
 
 function App() {
   return (

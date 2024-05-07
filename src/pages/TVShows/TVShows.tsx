@@ -19,7 +19,9 @@ const TVShows = () => {
     searchShows,
     searchResults,
     searchPageNumber,
-    setPageNumber,
+    setPopularPageNumber,
+    setTopRatedPageNumber,
+    setTrendingPageNumber,
   } = tvShowsContext;
 
   const searchContext = useSearchContext();
@@ -83,7 +85,13 @@ const TVShows = () => {
       const nextPage = searchPageNumber + 1;
       searchShows(searchQuery, nextPage);
     } else {
-      setPageNumber((prev) => prev + 1);
+      if (selectedOption === "trending") {
+        setTrendingPageNumber((prev) => prev + 1);
+      } else if (selectedOption === "popular") {
+        setPopularPageNumber((prev) => prev + 1);
+      } else {
+        setTopRatedPageNumber((prev) => prev + 1);
+      }
     }
   };
   return (

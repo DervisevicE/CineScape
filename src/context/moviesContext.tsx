@@ -23,7 +23,9 @@ interface MovieContextType {
   searchMovies: (query: string, page: number) => void;
   searchResults: any[];
   searchPageNumber: number;
-  setPageNumber: React.Dispatch<React.SetStateAction<number>>;
+  setTrendingPageNumber: React.Dispatch<React.SetStateAction<number>>;
+  setUpcomingPageNumber: React.Dispatch<React.SetStateAction<number>>;
+  setTopRatedPageNumber: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const MovieContext = createContext<MovieContextType | null>(null);
@@ -42,7 +44,9 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
   const [topRatedMovies, setTopRatedMovies] = useState<any[]>([]);
   const [movieGenres, setMovieGenres] = useState<any[]>([]);
   const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [trendingPageNumber, setTrendingPageNumber] = useState<number>(1);
+  const [upcomingPageNumber, setUpcomingPageNumber] = useState<number>(1);
+  const [topRatedPageNumber, setTopRatedPageNumber] = useState<number>(1);
   const [searchPageNumber, setSearchPageNumber] = useState<number>(1);
 
   useEffect(() => {
@@ -65,6 +69,10 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
 
+    getTrendingMovies(trendingPageNumber);
+  }, [trendingPageNumber]);
+
+  useEffect(() => {
     const getUpcomingMovies = async (page: number) => {
       const moviePage = page / 2 < 1 ? 1 : Math.round(page / 2);
       const response = await fetchUpcomingMovies(moviePage);
@@ -84,6 +92,10 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
 
+    getUpcomingMovies(upcomingPageNumber);
+  }, [upcomingPageNumber]);
+
+  useEffect(() => {
     const getTopRatedMovies = async (page: number) => {
       const moviePage = page / 2 < 1 ? 1 : Math.round(page / 2);
       const response = await fetchTopratedMovies(moviePage);
@@ -103,17 +115,18 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
 
+    getTopRatedMovies(topRatedPageNumber);
+  }, [topRatedPageNumber]);
+
+  useEffect(() => {
     const getMovieGenres = async () => {
       const response = await fetchMovieGenres();
       const genres = response.genres;
       setMovieGenres(genres);
     };
 
-    getTrendingMovies(pageNumber);
-    getUpcomingMovies(pageNumber);
-    getTopRatedMovies(pageNumber);
     getMovieGenres();
-  }, [pageNumber]);
+  }, []);
 
   const fetchMovieDetailsById = async (movieId: number) => {
     try {
@@ -190,7 +203,9 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
     searchMovies,
     searchResults,
     searchPageNumber,
-    setPageNumber,
+    setTrendingPageNumber: setTrendingPageNumber,
+    setUpcomingPageNumber: setUpcomingPageNumber,
+    setTopRatedPageNumber: setTopRatedPageNumber,
   };
 
   return (
