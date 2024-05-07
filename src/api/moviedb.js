@@ -112,9 +112,9 @@ export const fetchVideosForMovie = async (movieId) => {
   }
 };
 
-export const fetchTrendingTVShows = async () => {
+export const fetchTrendingTVShows = async (page) => {
   try {
-    const response = await axios.get(trendingTVShows);
+    const response = await axios.get(`${trendingTVShows}&page=${page}`);
     return response.data;
   } catch (error) {
     console.log("error: ", error);
@@ -122,9 +122,9 @@ export const fetchTrendingTVShows = async () => {
   }
 };
 
-export const fetchTopratedTVShows = async () => {
+export const fetchTopratedTVShows = async (page) => {
   try {
-    const response = await axios.get(topRatedTVShows);
+    const response = await axios.get(`${topRatedTVShows}&page=${page}`);
     return response.data;
   } catch (error) {
     console.log("error: ", error);
@@ -132,9 +132,9 @@ export const fetchTopratedTVShows = async () => {
   }
 };
 
-export const fetchPopularTVShows = async () => {
+export const fetchPopularTVShows = async (page) => {
   try {
-    const response = await axios.get(popularTVShows);
+    const response = await axios.get(`${popularTVShows}&page=${page}`);
     return response.data;
   } catch (error) {
     console.log("error: ", error);

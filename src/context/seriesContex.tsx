@@ -22,6 +22,7 @@ interface SeriesContextType {
   fetchVideosForShow: (showId: number) => Promise<any>;
   searchShows: (query: string) => void;
   searchResults: any[];
+  setPageNumber: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const SeriesContext = createContext<SeriesContextType | null>(null);
@@ -40,24 +41,64 @@ export const SeriesProvider = ({ children }: { children: React.ReactNode }) => {
   const [popularTVShows, setPopularTVShows] = useState<any[]>([]);
   const [showGenres, setShowGenres] = useState<any[]>([]);
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [pageNumber, setPageNumber] = useState<number>(1);
 
   useEffect(() => {
-    const getTrendingTVShows = async () => {
-      const response = await fetchTrendingTVShows();
+    const getTrendingTVShows = async (page: number) => {
+      const moviePage = page / 2 < 1 ? 1 : Math.round(page / 2);
+      const response = await fetchTrendingTVShows(moviePage);
       const trending = response.results;
-      setTrendingTvShows(trending);
+      if (page % 2 !== 1) {
+        setTrendingTvShows((prev) => {
+          let current = [...prev];
+          current.splice((page - 1) * 10, 10, ...trending.slice(10));
+          return current;
+        });
+      } else {
+        setTrendingTvShows((prev) => {
+          let current = [...prev];
+          current.splice((page - 1) * 10, 10, ...trending.slice(0, 10));
+          return current;
+        });
+      }
     };
 
-    const getTopRatedTVShows = async () => {
-      const response = await fetchTopratedTVShows();
+    const getTopRatedTVShows = async (page: number) => {
+      const moviePage = page / 2 < 1 ? 1 : Math.round(page / 2);
+      const response = await fetchTopratedTVShows(moviePage);
       const topRated = response.results;
-      setTopRatedTVShows(topRated);
+      if (page % 2 !== 1) {
+        setTopRatedTVShows((prev) => {
+          let current = [...prev];
+          current.splice((page - 1) * 10, 10, ...topRated.slice(10));
+          return current;
+        });
+      } else {
+        setTopRatedTVShows((prev) => {
+          let current = [...prev];
+          current.splice((page - 1) * 10, 10, ...topRated.slice(0, 10));
+          return current;
+        });
+      }
     };
 
-    const getPopularTVShows = async () => {
-      const response = await fetchPopularTVShows();
+    const getPopularTVShows = async (page: number) => {
+      const moviePage = page / 2 < 1 ? 1 : Math.round(page / 2);
+      const response = await fetchPopularTVShows(moviePage);
       const popular = response.results;
-      setPopularTVShows(popular);
+      if (page % 2 !== 1) {
+        setPopularTVShows((prev) => {
+          let current = [...prev];
+          current.splice((page - 1) * 10, 10, ...popular.slice(10));
+          return current;
+        });
+      } else {
+        setPopularTVShows((prev) => {
+          let current = [...prev];
+          current.splice((page - 1) * 10, 10, ...popular.slice(0, 10));
+          return current;
+        });
+      }
     };
     const getShowGenres = async () => {
       const response = await fetchShowGenres();
@@ -65,11 +106,11 @@ export const SeriesProvider = ({ children }: { children: React.ReactNode }) => {
       setShowGenres(genres);
     };
 
-    getTrendingTVShows();
-    getTopRatedTVShows();
-    getPopularTVShows();
+    getTrendingTVShows(pageNumber);
+    getTopRatedTVShows(pageNumber);
+    getPopularTVShows(pageNumber);
     getShowGenres();
-  }, []);
+  }, [pageNumber]);
 
   const fetchTVShowDetailsById = async (showId: number) => {
     try {
@@ -127,6 +168,7 @@ export const SeriesProvider = ({ children }: { children: React.ReactNode }) => {
     fetchVideosForShow: fetchVideosForShowById,
     searchShows,
     searchResults,
+    setPageNumber,
   };
 
   return (

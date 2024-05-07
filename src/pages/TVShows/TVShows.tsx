@@ -8,8 +8,9 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 const TVShows = () => {
   const [selectedOption, setSelectedOption] = useState("trending");
   const [animationClass, setAnimationClass] = useState("");
+  const [keystrokeTime, setKeystrokeTime] = useState<Date>(new Date());
 
-  const movieContext = useSeriesContext();
+  const tvShowsContext = useSeriesContext();
   const {
     trendingTVShows,
     topRatedTVShows,
@@ -17,7 +18,8 @@ const TVShows = () => {
     showGenres,
     searchShows,
     searchResults,
-  } = movieContext;
+    setPageNumber,
+  } = tvShowsContext;
 
   const searchContext = useSearchContext();
   const { searchQuery } = searchContext;
@@ -37,14 +39,20 @@ const TVShows = () => {
   useEffect(() => {
     setAnimationClass("fade-in");
     if (searchQuery.length > 2) {
-      setTimeout(() => {
-        searchShows(searchQuery);
-      }, 1000);
+      const search = () => {
+        const time = new Date().getTime() - keystrokeTime.getTime();
+        if (time > 900) {
+          console.log("YESSSS");
+          console.log(time);
+          searchShows(searchQuery);
+        }
+      };
+      setTimeout(() => search(), 1000);
     } else {
       searchShows("");
     }
     //eslint-disable-next-line
-  }, [searchQuery]);
+  }, [keystrokeTime, searchQuery]);
 
   const getGenreNames = (genreIds: number[]) => {
     return genreIds.map((id) => {
@@ -71,6 +79,10 @@ const TVShows = () => {
   const displayShows =
     searchResults.length > 0 ? searchResults : showsToDisplay;
 
+  const handleLoadMoreClick = () => {
+    setPageNumber((prev) => prev + 1);
+    console.log("LOADING");
+  };
   return (
     <div className="list-container">
       <div className="top-bar-container">
@@ -103,7 +115,7 @@ const TVShows = () => {
             </p>
           </div>
         )}
-        <SearchBar />
+        <SearchBar onChange={() => setKeystrokeTime(new Date())} />
       </div>
 
       <div className={`grid ${animationClass}`}>
@@ -112,7 +124,9 @@ const TVShows = () => {
         ))}
       </div>
       <div className="load-more-btn-container">
-        <button className="load-more-btn">Load more</button>
+        <button onClick={handleLoadMoreClick} className="load-more-btn">
+          Load more
+        </button>
       </div>
     </div>
   );
