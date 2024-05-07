@@ -2,14 +2,9 @@ import React from "react";
 import { useSearchContext } from "../../context/searchContext";
 import "./searchBar.css";
 
-export interface SearchBarProps {
-  onChange?: () => void;
-}
-
-const SearchBar = ({ onChange }: SearchBarProps) => {
+const SearchBar = () => {
   const { searchQuery, setSearch } = useSearchContext();
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.();
     setSearch(e.target.value);
   };
 

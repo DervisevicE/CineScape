@@ -8,7 +8,7 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 const TVShows = () => {
   const [selectedOption, setSelectedOption] = useState("trending");
   const [animationClass, setAnimationClass] = useState("");
-  const [keystrokeTime, setKeystrokeTime] = useState<Date>(new Date());
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const tvShowsContext = useSeriesContext();
   const {
@@ -39,20 +39,22 @@ const TVShows = () => {
   useEffect(() => {
     setAnimationClass("fade-in");
     if (searchQuery.length > 2) {
-      const search = () => {
-        const time = new Date().getTime() - keystrokeTime.getTime();
-        if (time > 900) {
-          console.log("YESSSS");
-          console.log(time);
-          searchShows(searchQuery);
-        }
-      };
-      setTimeout(() => search(), 1000);
+
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      const id = setTimeout(() => {
+        searchShows(searchQuery);
+      }, 1000);
+
+      setTimeoutId(id);
     } else {
       searchShows("");
     }
     //eslint-disable-next-line
-  }, [keystrokeTime, searchQuery]);
+  }, [searchQuery]);
+
 
   const getGenreNames = (genreIds: number[]) => {
     return genreIds.map((id) => {
@@ -115,7 +117,7 @@ const TVShows = () => {
             </p>
           </div>
         )}
-        <SearchBar onChange={() => setKeystrokeTime(new Date())} />
+        <SearchBar/>
       </div>
 
       <div className={`grid ${animationClass}`}>

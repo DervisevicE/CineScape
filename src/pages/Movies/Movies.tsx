@@ -8,7 +8,7 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 const Movies = () => {
   const [selectedOption, setSelectedOption] = useState<string>("trending");
   const [animationClass, setAnimationClass] = useState<string>("");
-  const [keystrokeTime, setKeystrokeTime] = useState<Date>(new Date());
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const movieContext = useMovieContext();
   const {
@@ -37,26 +37,23 @@ const Movies = () => {
   }, []);
 
   useEffect(() => {
-    console.log(keystrokeTime);
-  }, [keystrokeTime]);
-
-  useEffect(() => {
     setAnimationClass("fade-in");
     if (searchQuery.length > 2) {
-      const search = () => {
-        const time = new Date().getTime() - keystrokeTime.getTime();
-        if (time > 900) {
-          console.log("YESSSS");
-          console.log(time);
-          searchMovies(searchQuery);
-        }
-      };
-      setTimeout(() => search(), 1000);
+
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      const id = setTimeout(() => {
+        searchMovies(searchQuery);
+      }, 1000);
+
+      setTimeoutId(id);
     } else {
       searchMovies("");
     }
     //eslint-disable-next-line
-  }, [keystrokeTime, searchQuery]);
+  }, [searchQuery]);
 
   const getGenreNames = (genreIds: number[]) => {
     return genreIds?.map((id) => {
@@ -85,8 +82,8 @@ const Movies = () => {
 
   const handleLoadMoreClick = () => {
     setPageNumber((prev) => prev + 1);
-    console.log("LOADING");
   };
+
   return (
     <div className="list-container">
       <div className="top-bar-container">
@@ -119,7 +116,7 @@ const Movies = () => {
             </p>
           </div>
         )}
-        <SearchBar onChange={() => setKeystrokeTime(new Date())} />
+        <SearchBar />
       </div>
       <div className={`grid ${animationClass}`}>
         {displayMovies?.map((movie) => (
