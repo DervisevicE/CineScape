@@ -88,10 +88,10 @@ export const fetchMovieGenres = async () => {
   }
 };
 
-export const fetchSearchMovies = async (query) => {
+export const fetchSearchMovies = async (query, page) => {
   try {
     const response = await axios.get(
-      `${apiUrl}/search/movie?api_key=${apiKey}&query=${query}`
+      `${apiUrl}/search/movie?api_key=${apiKey}&query=${query}&page=${page}`
     );
     return response.data;
   } catch (error) {
@@ -178,10 +178,10 @@ export const fetchSimilarTVShows = async (seriesId) => {
   }
 };
 
-export const fetchSearchTVShows = async (query) => {
+export const fetchSearchTVShows = async (query, page) => {
   try {
     const response = await axios.get(
-      `${apiUrl}/search/tv?api_key=${apiKey}&query=${query}`
+      `${apiUrl}/search/tv?api_key=${apiKey}&query=${query}&page=${page}`
     );
     return response.data;
   } catch (error) {

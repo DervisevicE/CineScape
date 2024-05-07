@@ -18,6 +18,7 @@ const TVShows = () => {
     showGenres,
     searchShows,
     searchResults,
+    searchPageNumber,
     setPageNumber,
   } = tvShowsContext;
 
@@ -39,22 +40,18 @@ const TVShows = () => {
   useEffect(() => {
     setAnimationClass("fade-in");
     if (searchQuery.length > 2) {
-
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
-
       const id = setTimeout(() => {
-        searchShows(searchQuery);
+        searchShows(searchQuery, 1);
       }, 1000);
-
       setTimeoutId(id);
     } else {
-      searchShows("");
+      searchShows("", 1);
     }
     //eslint-disable-next-line
   }, [searchQuery]);
-
 
   const getGenreNames = (genreIds: number[]) => {
     return genreIds.map((id) => {
@@ -82,8 +79,12 @@ const TVShows = () => {
     searchResults.length > 0 ? searchResults : showsToDisplay;
 
   const handleLoadMoreClick = () => {
-    setPageNumber((prev) => prev + 1);
-    console.log("LOADING");
+    if (searchResults.length > 0) {
+      const nextPage = searchPageNumber + 1;
+      searchShows(searchQuery, nextPage);
+    } else {
+      setPageNumber((prev) => prev + 1);
+    }
   };
   return (
     <div className="list-container">
@@ -117,7 +118,7 @@ const TVShows = () => {
             </p>
           </div>
         )}
-        <SearchBar/>
+        <SearchBar />
       </div>
 
       <div className={`grid ${animationClass}`}>

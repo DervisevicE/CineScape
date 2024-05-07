@@ -18,6 +18,7 @@ const Movies = () => {
     movieGenres,
     searchResults,
     searchMovies,
+    searchPageNumber,
     setPageNumber,
   } = movieContext;
 
@@ -39,18 +40,15 @@ const Movies = () => {
   useEffect(() => {
     setAnimationClass("fade-in");
     if (searchQuery.length > 2) {
-
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
-
       const id = setTimeout(() => {
-        searchMovies(searchQuery);
+        searchMovies(searchQuery, 1);
       }, 1000);
-
       setTimeoutId(id);
     } else {
-      searchMovies("");
+      searchMovies("", 1);
     }
     //eslint-disable-next-line
   }, [searchQuery]);
@@ -81,7 +79,12 @@ const Movies = () => {
     searchResults.length > 0 ? searchResults : moviesToDisplay;
 
   const handleLoadMoreClick = () => {
-    setPageNumber((prev) => prev + 1);
+    if (searchResults.length > 0) {
+      const nextPage = searchPageNumber + 1;
+      searchMovies(searchQuery, nextPage);
+    } else {
+      setPageNumber((prev) => prev + 1);
+    }
   };
 
   return (
@@ -123,13 +126,13 @@ const Movies = () => {
           <Card key={movie.id} data={movie} getGenreNames={getGenreNames} />
         ))}
       </div>
-      <div>
+      {displayMovies.length > 0 && (
         <div className="load-more-btn-container">
           <button onClick={handleLoadMoreClick} className="load-more-btn">
             Load more
           </button>
         </div>
-      </div>
+      )}
     </div>
   );
 };

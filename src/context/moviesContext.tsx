@@ -20,8 +20,9 @@ interface MovieContextType {
   fetchCastMembersForMovie: (movieId: number) => Promise<any>;
   fetchSimilarMovies: (movieId: number) => Promise<any>;
   fetchVideosForMovie: (movieId: number) => Promise<any>;
-  searchMovies: (query: string) => void;
+  searchMovies: (query: string, page: number) => void;
   searchResults: any[];
+  searchPageNumber: number;
   setPageNumber: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -42,6 +43,7 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
   const [movieGenres, setMovieGenres] = useState<any[]>([]);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [pageNumber, setPageNumber] = useState<number>(1);
+  const [searchPageNumber, setSearchPageNumber] = useState<number>(1);
 
   useEffect(() => {
     const getTrendingMovies = async (page: number) => {
@@ -153,9 +155,27 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const searchMovies = async (query: string) => {
-    const results = await fetchSearchMovies(query);
-    setSearchResults(results.results || []);
+  const searchMovies = async (query: string, page: number = 1) => {
+    const searchPage = page / 2 < 1 ? 1 : Math.round(page / 2);
+    const response = await fetchSearchMovies(query, searchPage);
+    const searched = response.results;
+    if (!query) {
+      setSearchResults([]);
+    } else if (page % 2 !== 1) {
+      setSearchResults((prev) => {
+        let current = [...prev];
+        current.splice((page - 1) * 10, 10, ...searched.slice(10));
+        return current;
+      });
+    } else {
+      setSearchResults((prev) => {
+        let current = [...prev];
+        current.splice((page - 1) * 10, 10, ...searched.slice(0, 10));
+        return current;
+      });
+    }
+
+    setSearchPageNumber(page);
   };
 
   const movieContextValue: MovieContextType = {
@@ -169,6 +189,7 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
     fetchVideosForMovie: fetchVideosForMovieById,
     searchMovies,
     searchResults,
+    searchPageNumber,
     setPageNumber,
   };
 
