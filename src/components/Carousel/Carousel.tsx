@@ -7,7 +7,7 @@ interface Data {
   poster_path: string;
   backdrop_path: string;
   title: string;
-  name:string;
+  name: string;
   overview: string;
 }
 
@@ -37,7 +37,7 @@ const Carousel: React.FC<Props> = ({ items }) => {
   };
 
   const handleCardClick = (id: number) => {
-    navigate(`/movies/${id}`);
+    navigate(isMovies ? `/movies/${id}` : `/tv-shows/${id}`);
   };
 
   return (
@@ -64,7 +64,9 @@ const Carousel: React.FC<Props> = ({ items }) => {
               <div
                 className="poster"
                 style={{
-                  backgroundImage: `url(https://image.tmdb.org/t/p/w500/${item?.poster_path || item?.backdrop_path})`,
+                  backgroundImage: `url(https://image.tmdb.org/t/p/w500/${
+                    item?.poster_path || item?.backdrop_path
+                  })`,
                 }}
               ></div>
               <div className="card-details">
