@@ -7,6 +7,7 @@ interface Data {
   poster_path: string;
   backdrop_path: string;
   title: string;
+  name:string;
   overview: string;
 }
 
@@ -67,7 +68,7 @@ const Carousel: React.FC<Props> = ({ items }) => {
                 }}
               ></div>
               <div className="card-details">
-                <p className="card-title">{item?.title}</p>
+                <p className="card-title">{item?.title || item?.name}</p>
               </div>
             </div>
           ))}
