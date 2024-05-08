@@ -42,7 +42,7 @@ const DetailsWithoutVideo: React.FC<DetailsProps> = ({
           <div
             className="banner"
             style={{
-              backgroundImage: `url(https://image.tmdb.org/t/p/w500/${data?.backdrop_path})`,
+              backgroundImage: `url(https://image.tmdb.org/t/p/w500/${data?.backdrop_path || data?.poster_path})`,
             }}
           >
             <div className="back-arrow-container">

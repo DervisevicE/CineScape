@@ -6,6 +6,7 @@ interface CardProps {
   data: {
     id: number;
     poster_path: string;
+    backdrop_path: string;
     title: string;
     name: string,
     genre_ids: number[];
@@ -32,7 +33,7 @@ const Card: React.FC<CardProps> = ({ data, getGenreNames }) => {
       <div
         className="poster"
         style={{
-          backgroundImage: `url(https://image.tmdb.org/t/p/w500/${data.poster_path})`,
+          backgroundImage: `url(https://image.tmdb.org/t/p/w500/${data?.poster_path || data?.backdrop_path})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
