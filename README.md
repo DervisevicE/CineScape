@@ -8,7 +8,7 @@ CineScape is a web application that allows users to discover trending, popular, 
 
 - **View content**: View trending, top rated, upcoming and popular movies and TV shows.
 - **Search**: Search for movies and TV shows.
-- **View detais**: Get detailed information about selected movie or TV show such as title, overview, cast members...
+- **View details**: Get detailed information about selected movie or TV show such as title, overview, cast members...
 - **Similar content**: Discover similar content similar to selected one.
 - **Watch trailers**: If available, watch trailer for selected movie or TV show.
 
