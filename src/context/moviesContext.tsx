@@ -49,24 +49,40 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
   const [topRatedPageNumber, setTopRatedPageNumber] = useState<number>(1);
   const [searchPageNumber, setSearchPageNumber] = useState<number>(1);
 
+  const setResults = (
+    optionMovies: any[],
+    optionPageNumber: number,
+    optionSetMovies: React.Dispatch<React.SetStateAction<any[]>>
+  ) => {
+    if (optionPageNumber % 2 !== 1) {
+      optionSetMovies((prev) => {
+        let current = [...prev];
+        current.splice(
+          (optionPageNumber - 1) * 10,
+          10,
+          ...optionMovies.slice(10)
+        );
+        return current;
+      });
+    } else {
+      optionSetMovies((prev) => {
+        let current = [...prev];
+        current.splice(
+          (optionPageNumber - 1) * 10,
+          10,
+          ...optionMovies.slice(0, 10)
+        );
+        return current;
+      });
+    }
+  };
+
   useEffect(() => {
     const getTrendingMovies = async (page: number) => {
       const moviePage = page / 2 < 1 ? 1 : Math.round(page / 2);
       const response = await fetchTrendingMovies(moviePage);
       const trending = response.results;
-      if (page % 2 !== 1) {
-        setTrendingMovies((prev) => {
-          let current = [...prev];
-          current.splice((page - 1) * 10, 10, ...trending.slice(10));
-          return current;
-        });
-      } else {
-        setTrendingMovies((prev) => {
-          let current = [...prev];
-          current.splice((page - 1) * 10, 10, ...trending.slice(0, 10));
-          return current;
-        });
-      }
+      setResults(trending, page, setTrendingMovies);
     };
 
     getTrendingMovies(trendingPageNumber);
@@ -77,19 +93,7 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
       const moviePage = page / 2 < 1 ? 1 : Math.round(page / 2);
       const response = await fetchUpcomingMovies(moviePage);
       const upcoming = response.results;
-      if (page % 2 !== 1) {
-        setUpcomingMovies((prev) => {
-          let current = [...prev];
-          current.splice((page - 1) * 10, 10, ...upcoming.slice(10));
-          return current;
-        });
-      } else {
-        setUpcomingMovies((prev) => {
-          let current = [...prev];
-          current.splice((page - 1) * 10, 10, ...upcoming.slice(0, 10));
-          return current;
-        });
-      }
+      setResults(upcoming, page, setUpcomingMovies);
     };
 
     getUpcomingMovies(upcomingPageNumber);
@@ -100,19 +104,7 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
       const moviePage = page / 2 < 1 ? 1 : Math.round(page / 2);
       const response = await fetchTopratedMovies(moviePage);
       const topRated = response.results;
-      if (page % 2 !== 1) {
-        setTopRatedMovies((prev) => {
-          let current = [...prev];
-          current.splice((page - 1) * 10, 10, ...topRated.slice(10));
-          return current;
-        });
-      } else {
-        setTopRatedMovies((prev) => {
-          let current = [...prev];
-          current.splice((page - 1) * 10, 10, ...topRated.slice(0, 10));
-          return current;
-        });
-      }
+      setResults(topRated, page, setTopRatedMovies);
     };
 
     getTopRatedMovies(topRatedPageNumber);
@@ -174,18 +166,8 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
     const searched = response.results;
     if (!query) {
       setSearchResults([]);
-    } else if (page % 2 !== 1) {
-      setSearchResults((prev) => {
-        let current = [...prev];
-        current.splice((page - 1) * 10, 10, ...searched.slice(10));
-        return current;
-      });
     } else {
-      setSearchResults((prev) => {
-        let current = [...prev];
-        current.splice((page - 1) * 10, 10, ...searched.slice(0, 10));
-        return current;
-      });
+      setResults(searched, page, setSearchResults);
     }
 
     setSearchPageNumber(page);

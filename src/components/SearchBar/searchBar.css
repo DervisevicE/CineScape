@@ -3,13 +3,30 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+  position: relative;
 }
+
+.search-bar-relative {
+  position: relative;
+}
+
+.clear-button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 8px;
+}
+
 .search-bar {
-  background-image: url("../../assets//search-bar.png");
+  background-image: url("../../assets/search-bar.png");
   background-position: 6px 10px;
   background-repeat: no-repeat;
   background-color: transparent;
-  width: 100%;
+  width: calc(100% - 48px);
   font-size: 16px;
   padding: 12px 20px 12px 40px;
   border: 2px solid #252837;
