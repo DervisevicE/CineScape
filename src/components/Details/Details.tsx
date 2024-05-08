@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Carousel from "../Carousel/Carousel";
+import NoImage from "../../assets/no-image.jpeg";
+
 
 interface Genre {
   id: number;
@@ -28,7 +30,7 @@ interface DetailsProps {
   youtubeUrl: string;
 }
 
-const DetailsWithVideo: React.FC<DetailsProps> = ({
+const Details: React.FC<DetailsProps> = ({
   data,
   similar,
   castMembers,
@@ -40,7 +42,16 @@ const DetailsWithVideo: React.FC<DetailsProps> = ({
     <div className="details-container">
       {data && (
         <>
-          <div className="video-banner">
+          <div
+            className={youtubeUrl ? "video-banner" : "banner"}
+            style={{
+              backgroundImage: !youtubeUrl
+                ? `url(https://image.tmdb.org/t/p/w500/${
+                    data?.backdrop_path || data?.poster_path
+                  })`
+                : "",
+            }}
+          >
             {youtubeUrl && (
               <iframe
                 width="100%"
@@ -58,16 +69,22 @@ const DetailsWithVideo: React.FC<DetailsProps> = ({
           </div>
 
           <div className="main-details-container">
-            <div className="video-poster-card">
+            <div className={youtubeUrl ? "video-poster-card" : "poster-card"}>
               <div
                 className="details-poster"
                 style={{
-                  backgroundImage: `url(https://image.tmdb.org/t/p/w500/${data?.poster_path})`,
+                  backgroundImage: `url(${
+                    data.poster_path
+                      ? "https://image.tmdb.org/t/p/w500/" + data.poster_path
+                      : data.backdrop_path
+                      ? "https://image.tmdb.org/t/p/w500/" + data.backdrop_path
+                      : NoImage
+                  })`,
                 }}
               ></div>
             </div>
 
-            <div className="video-main-details">
+            <div className={youtubeUrl ? "video-main-details" : "main-details"}>
               <div className="details-genres">
                 {data?.genres?.map((genre, index) => (
                   <span key={genre.id}>
@@ -103,4 +120,4 @@ const DetailsWithVideo: React.FC<DetailsProps> = ({
   );
 };
 
-export default DetailsWithVideo;
+export default Details;

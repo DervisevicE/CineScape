@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSeriesContext } from "../../context/seriesContex";
 import "../details.css";
-import DetailsWithoutVideo from "../../components/DetailsWithoutVideo/DetailsWithoutVideo";
-import DetailsWithVideo from "../../components/DetailsWithVideo/DetailsWithVideo";
+import Details from "../../components/Details/Details";
 import PageNotFound from "../../components/PageNotFound/PageNotFound";
 
 interface Genre {
@@ -15,7 +14,7 @@ interface TVShow {
   poster_path: string;
   backdrop_path: string;
   title: string;
-  name: string,
+  name: string;
   overview: string;
   genres: Genre[];
 }
@@ -78,22 +77,12 @@ const TVShowDetails = () => {
       ) : (
         <>
           {show !== null && Object.keys(show as TVShow).length !== 0 ? (
-            <>
-              {youtubeUrl ? (
-                <DetailsWithVideo
-                  data={show}
-                  similar={similarShows}
-                  castMembers={castMembers}
-                  youtubeUrl={youtubeUrl}
-                />
-              ) : (
-                <DetailsWithoutVideo
-                  data={show}
-                  similar={similarShows}
-                  castMembers={castMembers}
-                />
-              )}
-            </>
+            <Details
+              data={show}
+              similar={similarShows}
+              castMembers={castMembers}
+              youtubeUrl={youtubeUrl}
+            />
           ) : (
             <PageNotFound />
           )}

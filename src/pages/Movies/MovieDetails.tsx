@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useMovieContext } from "../../context/moviesContext";
 import "../details.css";
-import DetailsWithoutVideo from "../../components/DetailsWithoutVideo/DetailsWithoutVideo";
 import PageNotFound from "../../components/PageNotFound/PageNotFound";
-import DetailsWithVideo from "../../components/DetailsWithVideo/DetailsWithVideo";
+import Details from "../../components/Details/Details";
 
 interface Genre {
   id: number;
@@ -15,7 +14,7 @@ interface Movie {
   poster_path: string;
   backdrop_path: string;
   title: string;
-  name:string,
+  name: string;
   overview: string;
   genres: Genre[];
 }
@@ -77,22 +76,12 @@ const MovieDetails = () => {
       ) : (
         <>
           {movie !== null && Object.keys(movie as Movie).length !== 0 ? (
-            <>
-              {youtubeUrl ? (
-                <DetailsWithVideo
-                  data={movie}
-                  similar={similarMovies}
-                  castMembers={castMembers}
-                  youtubeUrl={youtubeUrl}
-                />
-              ) : (
-                <DetailsWithoutVideo
-                  data={movie}
-                  similar={similarMovies}
-                  castMembers={castMembers}
-                />
-              )}
-            </>
+            <Details
+              data={movie}
+              similar={similarMovies}
+              castMembers={castMembers}
+              youtubeUrl={youtubeUrl}
+            />
           ) : (
             <PageNotFound />
           )}

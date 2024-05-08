@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./carousel.css";
+import NoImage from "../../assets/no-image.jpeg";
 
 interface Data {
   id: number;
@@ -64,8 +65,12 @@ const Carousel: React.FC<Props> = ({ items }) => {
               <div
                 className="poster"
                 style={{
-                  backgroundImage: `url(https://image.tmdb.org/t/p/w500/${
-                    item?.poster_path || item?.backdrop_path
+                  backgroundImage: `url(${
+                    item.poster_path
+                      ? "https://image.tmdb.org/t/p/w500/" + item.poster_path
+                      : item.backdrop_path
+                      ? "https://image.tmdb.org/t/p/w500/" + item.backdrop_path
+                      : NoImage
                   })`,
                 }}
               ></div>
