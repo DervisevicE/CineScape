@@ -6,6 +6,7 @@ import { MovieProvider } from "./context/moviesContext";
 import { SeriesProvider } from "./context/seriesContex";
 import { BrowserRouter } from "react-router-dom";
 import { SearchProvider } from "./context/searchContext";
+import { MenuProvider } from "./context/menuContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,13 +14,15 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <MovieProvider>
-        <SeriesProvider>
-          <SearchProvider>
-            <App />
-          </SearchProvider>
-        </SeriesProvider>
-      </MovieProvider>
+      <MenuProvider>
+        <MovieProvider>
+          <SeriesProvider>
+            <SearchProvider>
+              <App />
+            </SearchProvider>
+          </SeriesProvider>
+        </MovieProvider>
+      </MenuProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
